@@ -203,7 +203,7 @@ const Header: React.FC = React.memo(() => {
             </div>
 
             {/* Mobile Navigation Bar */}
-            <div className="lg:hidden flex items-center justify-between py-3">
+            <div className="lg:hidden flex items-center justify-between py-3 relative z-10">
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-sm sm:text-base text-[var(--fg-primary)]">Rahul Dange</span>
               </div>

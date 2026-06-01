@@ -312,7 +312,7 @@ p {
 .nav-bar {
   position: sticky;
   top: 0;
-  z-index: var(--z-sticky);
+  z-index: 9999;
   /* Default high-performance translucent background for Chrome and Firefox to prevent scroll lag */
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border-subtle);
@@ -481,8 +481,11 @@ p {
 
 .mobile-menu-overlay {
   position: fixed;
-  inset: 0;
-  z-index: calc(var(--z-sticky) - 1);
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
   background: rgba(15, 23, 42, 0.25);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -499,12 +502,10 @@ p {
   top: 100%;
   left: 0;
   right: 0;
-  z-index: var(--z-sticky);
-  background: var(--bg-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-default);
-  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  background: var(--bg-primary); /* Solid opaque white background to block page text */
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-md);
   animation: slide-down var(--duration-base) var(--ease-out);
 }
 

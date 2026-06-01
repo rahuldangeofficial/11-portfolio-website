@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  IconCalendar,
   IconBook,
   IconExternalLink,
 } from './Icons';
