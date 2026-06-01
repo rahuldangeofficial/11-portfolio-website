@@ -1,145 +1,200 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Button, Icon } from '@blueprintjs/core';
-import { Mail, Phone, MapPin, Github, Linkedin, Download, Menu, X } from 'lucide-react';
+import React from 'react';
+import { IconMail, IconPhone, IconMapPin, IconGithub, IconLinkedin, IconDownload, IconMenu, IconX } from './Icons';
 
-const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('about');
+const Header: React.FC = React.memo(() => {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [activeSection, setActiveSection] = React.useState('about');
 
-  const navigationItems = useMemo(() => [
+  const navigationItems = React.useMemo(() => [
     { id: 'about', label: 'About' },
+    { id: 'experience', label: 'Experience' },
     { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Projects' },
     { id: 'education', label: 'Education' },
     { id: 'preferences', label: 'Tech Stack' },
     { id: 'interests', label: 'Interests' },
-    { id: 'blog', label: 'Blog' },
+    { id: 'publications', label: 'Publications' },
+    { id: 'volunteering', label: 'Volunteering' },
+    { id: 'mystory', label: 'My Story' },
     { id: 'contact', label: 'Contact' }
   ], []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navigationItems.map(item => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 100;
+  React.useEffect(() => {
+    const sectionIds = navigationItems.map(item => item.id);
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(navigationItems[i].id);
-          break;
-        }
+    const observerOptions = {
+      root: null,
+      rootMargin: '-10% 0px -60% 0px',
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      // Find the entry that is currently intersecting the active viewport zone
+      const intersecting = entries.filter(entry => entry.isIntersecting);
+      if (intersecting.length > 0) {
+        // Highlight the top-most intersecting section
+        const sorted = intersecting.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        setActiveSection(sorted[0].target.id);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    // Highly lightweight scroll listener purely for bottom-page check (no layout thrashing)
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120) {
+        setActiveSection(sectionIds[sectionIds.length - 1]);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [navigationItems]);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = React.useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.offsetTop;
-      const offsetPosition = elementPosition - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      const globalLenis = (window as any).lenis;
+      if (globalLenis) {
+        globalLenis.scrollTo(element, {
+          offset: -80,
+          duration: 1.0,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) // easeOutExpo
+        });
+      } else {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
     setIsMenuOpen(false);
-  };
+  }, []);
 
   return (
     <>
-      {/* Main Header */}
-      <div className="bg-white border-b border-gray-200 py-8 md:py-12">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center">
-              {/* Profile Image */}
-              <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-gray-100 rounded-full mx-auto mb-4 md:mb-6 flex items-center justify-center border-4 border-white shadow-lg">
-                <Icon icon="person" size={32} className="text-gray-400 sm:hidden" />
-                <Icon icon="person" size={40} className="text-gray-400 hidden sm:block md:hidden" />
-                <Icon icon="person" size={48} className="text-gray-400 hidden md:block" />
-              </div>
+      {/* Hero Section */}
+      <section className="hero py-12 sm:py-16 md:py-24 lg:py-28 relative overflow-hidden">
+        <div className="hero-gradient" />
+        <div className="hero-grid" />
+        <div className="container relative z-10">
+          <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8 flex flex-col items-center">
+            
+            {/* Profile Picture */}
+            <div className="relative group select-none">
+              <div 
+                className="absolute inset-0 rounded-full blur-md opacity-20 group-hover:opacity-35 transition-opacity duration-500 bg-black"
+              />
+              <img 
+                src="/profile.png" 
+                alt="Rahul Dange" 
+                fetchpriority="high"
+                className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full object-cover border-2 border-[var(--border-default)] group-hover:border-black shadow-lg relative z-10 transition-all duration-500 transform group-hover:scale-[1.02] will-change-transform"
+              />
+            </div>
+
+            {/* Name */}
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter leading-none text-[var(--fg-primary)]">
+              Rahul Dange
+            </h1>
+
+            {/* Subtitle / Headline (Professional Title) */}
+            <p className="text-xl sm:text-2xl md:text-3xl font-normal tracking-tight text-[var(--fg-secondary)] leading-relaxed max-w-3xl">
+              Computer Engineer specializing in <span className="font-semibold text-[var(--fg-primary)]">Systems</span>, <span className="font-semibold text-[var(--fg-primary)]">Algorithms</span> &amp; <span className="font-semibold text-[var(--fg-primary)]">Product Architecture</span>
+            </p>
+
+            {/* Education Tag (under title) */}
+            <div className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-2 sm:py-1 rounded-2xl sm:rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface)] text-[var(--fg-secondary)] border border-[var(--border-default)] text-center max-w-sm sm:max-w-none">
+              <span>University of Sydney</span>
+              <span className="hide-on-mobile sm:inline text-[var(--border-default)]">•</span>
+              <span>Master of Computer Science</span>
+              <span className="w-full sm:w-auto block sm:inline text-[var(--fg-secondary)] opacity-85">
+                (Software Engineering Specialization)
+              </span>
+            </div>
+
+            {/* Contact Info */}
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-y-2.5 gap-x-6 text-xs sm:text-sm text-[var(--fg-secondary)] pt-4 border-t border-[var(--border-subtle)] w-full max-w-2xl">
+              <a href="mailto:contact@rahuldange.com" className="flex items-center gap-2 hover:text-[var(--accent-cyan)] transition-colors text-[var(--fg-secondary)]">
+                <IconMail size={14} />
+                <span>contact@rahuldange.com</span>
+              </a>
               
-              {/* Name and Title */}
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 md:mb-3 text-gray-900 px-2">Rahul Dange</h1>
-              <p className="text-base sm:text-lg md:text-xl mb-2 text-gray-600 px-2">
-                System Programmer • Software Engineer • Web Application Developer
-              </p>
-              <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-8 text-gray-500 px-2">
-                Master of Computer Science (Software Engineering) • University of Sydney
-              </p>
-              
-              {/* Contact Information */}
-              <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 mb-6 md:mb-8 text-gray-600 px-2">
-                <div className="flex items-center justify-center gap-2 text-sm sm:text-base">
-                  <Mail size={14} className="sm:hidden" />
-                  <Mail size={16} className="hidden sm:block" />
-                  <span className="break-all sm:break-normal">rahul.dange@email.com</span>
-                </div>
-                <div className="flex items-center justify-center gap-2 text-sm sm:text-base">
-                  <Phone size={14} className="sm:hidden" />
-                  <Phone size={16} className="hidden sm:block" />
-                  <span>+61 XXX XXX XXX</span>
-                </div>
-                <div className="flex items-center justify-center gap-2 text-sm sm:text-base">
-                  <MapPin size={14} className="sm:hidden" />
-                  <MapPin size={16} className="hidden sm:block" />
+              <div className="flex items-center justify-center gap-x-4 sm:gap-x-6 flex-wrap sm:contents">
+                <span className="flex items-center gap-2">
+                  <IconPhone size={14} />
+                  <span>+61 412954045</span>
+                </span>
+                <span className="hide-on-mobile sm:inline text-[var(--border-default)]">•</span>
+                <span className="flex items-center gap-2">
+                  <IconMapPin size={14} />
                   <span>Sydney, Australia</span>
-                </div>
-              </div>
-              
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
-                <Button 
-                  intent="primary"
-                  large
-                  className="w-full sm:w-auto min-h-[44px] touch-manipulation"
-                  icon={<Download size={16} />}
-                >
-                  Download Resume
-                </Button>
-                <Button 
-                  outlined
-                  large
-                  className="w-full sm:w-auto min-h-[44px] touch-manipulation"
-                  icon={<Github size={16} />}
-                >
-                  GitHub
-                </Button>
-                <Button 
-                  outlined
-                  large
-                  className="w-full sm:w-auto min-h-[44px] touch-manipulation"
-                  icon={<Linkedin size={16} />}
-                >
-                  LinkedIn
-                </Button>
+                </span>
               </div>
             </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-3 w-full sm:w-auto max-w-xs sm:max-w-none">
+              <a
+                id="btn-download-resume"
+                href="/resume.pdf"
+                download="Rahul_Dange_Resume.pdf"
+                className="btn btn-primary btn-lg flex items-center justify-center gap-2 w-full sm:w-auto order-3 sm:order-1"
+              >
+                <IconDownload size={16} />
+                Download Resume
+              </a>
+              <a
+                id="btn-github"
+                href="https://github.com/rahuldangeofficial"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary btn-lg flex items-center justify-center gap-2 w-full sm:w-auto order-2 sm:order-2"
+              >
+                <IconGithub size={16} />
+                GitHub
+              </a>
+              <a
+                id="btn-linkedin"
+                href="https://www.linkedin.com/in/rahuldangeofficial/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary btn-lg flex items-center justify-center gap-2 w-full sm:w-auto order-1 sm:order-3"
+              >
+                <IconLinkedin size={16} />
+                LinkedIn
+              </a>
+            </div>
+
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Sticky Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
-        <div className="container mx-auto px-4 sm:px-6">
+      <nav className="nav-bar sticky top-0 z-50">
+        <div className="container">
           <div className="max-w-6xl mx-auto">
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-center py-4">
-              <div className="flex items-center space-x-1">
+            <div className="hidden lg:flex items-center justify-center py-3">
+              <div className="flex items-center gap-1">
                 {navigationItems.map((item) => (
                   <button
                     key={item.id}
+                    id={`nav-${item.id}`}
                     onClick={() => scrollToSection(item.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-gray-100 ${
-                      activeSection === item.id
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
+                    className={activeSection === item.id ? 'nav-link nav-link-active' : 'nav-link'}
                   >
                     {item.label}
                   </button>
@@ -147,48 +202,49 @@ const Header: React.FC = () => {
               </div>
             </div>
 
-            {/* Mobile Navigation */}
+            {/* Mobile Navigation Bar */}
             <div className="lg:hidden flex items-center justify-between py-3">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Icon icon="person" size={16} className="text-blue-600" />
-                </div>
-                <span className="font-semibold text-gray-900">Rahul Dange</span>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-sm sm:text-base text-[var(--fg-primary)]">Rahul Dange</span>
               </div>
-              
+
               <button
+                id="btn-mobile-menu-toggle"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="btn btn-ghost p-2"
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               >
-                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                {isMenuOpen ? <IconX size={20} /> : <IconMenu size={20} />}
               </button>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu Panel */}
             {isMenuOpen && (
-              <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg">
-                <div className="px-4 py-2 space-y-1">
-                  {navigationItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => scrollToSection(item.id)}
-                      className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                        activeSection === item.id
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
+              <>
+                <div className="mobile-menu-overlay lg:hidden" onClick={() => setIsMenuOpen(false)} />
+                <div className="mobile-menu-panel lg:hidden">
+                  <div className="px-4 py-2 space-y-1">
+                    {navigationItems.map((item) => (
+                      <button
+                        key={item.id}
+                        id={`nav-mobile-${item.id}`}
+                        onClick={() => scrollToSection(item.id)}
+                        className={`w-full text-left ${activeSection === item.id ? 'nav-link nav-link-active' : 'nav-link'}`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         </div>
       </nav>
     </>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;

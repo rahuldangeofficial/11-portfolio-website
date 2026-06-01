@@ -1,37 +1,31 @@
-import React, { memo } from 'react';
-import { Card, Elevation } from '@blueprintjs/core';
+import React from 'react';
 
-const About: React.FC = memo(() => {
+const About: React.FC = React.memo(() => {
   return (
-    <section id="about" className="section-spacing bg-white">
-      <div className="container mx-auto px-4 sm:px-6">
+    <section id="about" className="section">
+      <div className="container">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 md:mb-8 text-gray-800">About Me</h2>
-          
-          <Card elevation={Elevation.ONE} className="profile-card p-4 sm:p-6 md:p-8 fade-in">
-            <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none">
-              <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                I am a passionate and dedicated software engineer with a Master's degree in Computer Science 
-                from the University of Sydney, specializing in software engineering. With extensive experience 
-                in system programming, software development, and web application development, I bring a unique 
-                combination of theoretical knowledge and practical expertise to every project.
+          <h2 className="section-heading mb-8 md:mb-12">About Me</h2>
+
+          <div className="card scroll-reveal p-4 sm:p-6 md:p-8">
+            <div className="space-y-4">
+              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
+                I am engineer who solves problems, real engineering problems, because I can see them in multiple dimensions. Every problem I encounter is a mechanism that forces my brain to expand. I systematically tear complexity apart, craft the necessary pieces of the solution, and fuse them together.
               </p>
-              
-              <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                My journey in technology has been driven by a commitment to creating robust, scalable, and 
-                efficient solutions. I excel in designing and implementing complex systems, from low-level 
-                system programming to high-level web applications, always with a focus on best practices, 
-                performance optimization, and maintainable code architecture.
+
+              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
+                If you ask me how I know I can do this, it's because I have failed more times than I can count. But every single failure gave me the exact why and the what that I was missing. I am not driven by being the 'best' engineer in the room, I am driven by the absolute certainty that no matter the complexity, I will figure it out.
               </p>
-              
-              <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-                I thrive in collaborative environments where I can contribute to innovative projects, mentor 
-                junior developers, and continuously expand my technical expertise. My goal is to leverage 
-                cutting-edge technologies to solve real-world problems and create meaningful impact through 
-                software engineering excellence.
+
+              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
+                Beyond the code, my greatest asset is the ability to teach. My proof? I taught the most challenging student on the planet, myself. I took someone who felt entirely out of his depth and forged him into an engineer who genuinely believes he can solve anything.
+              </p>
+
+              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
+                That is exactly what I bring to the table.
               </p>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </section>

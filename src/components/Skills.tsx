@@ -1,58 +1,132 @@
-import React, { memo } from 'react';
-import { Card, Elevation, Tag } from '@blueprintjs/core';
+import React from 'react';
 
-const Skills: React.FC = memo(() => {
-  const skillCategories = [
+interface SkillCategory {
+  title: string;
+  icon: React.ReactNode;
+  skills: string[];
+}
+
+const Skills: React.FC = React.memo(() => {
+  const skillCategories: SkillCategory[] = React.useMemo(() => [
     {
-      title: 'Programming Languages',
-      skills: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C++', 'C', 'Go', 'Rust', 'SQL']
+      title: 'Systems & Low-Level',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-[var(--accent-cyan)]">
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+          <rect x="9" y="9" width="6" height="6" />
+          <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3" />
+        </svg>
+      ),
+      skills: [
+        'C',
+        'C++',
+        'x86-64 Assembly',
+        'Linux Kernel',
+        'POSIX Threads',
+        'Concurrency',
+        'IPC',
+        'Memory Management',
+        'GDB',
+        'Valgrind'
+      ]
     },
     {
-      title: 'Web Technologies',
-      skills: ['React', 'Node.js', 'Express.js', 'Next.js', 'Vue.js', 'HTML5', 'CSS3', 'REST APIs', 'GraphQL']
+      title: 'Languages & Paradigms',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-[var(--accent-cyan)]">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      ),
+      skills: [
+        'Python',
+        'Java',
+        'TypeScript',
+        'JavaScript',
+        'SQL (PostgreSQL)',
+        'Microservices Architecture',
+        'System Design',
+        'SOLID'
+      ]
     },
     {
-      title: 'System & DevOps',
-      skills: ['Linux', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'CI/CD', 'Jenkins', 'Git', 'Nginx']
+      title: 'Frameworks & APIs',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-[var(--accent-cyan)]">
+          <rect x="3" y="3" width="7" height="9" />
+          <rect x="14" y="3" width="7" height="5" />
+          <rect x="14" y="12" width="7" height="9" />
+          <rect x="3" y="16" width="7" height="5" />
+        </svg>
+      ),
+      skills: [
+        'React',
+        'Next.js',
+        'Node.js',
+        'Express',
+        'FastAPI',
+        'RESTful Architecture'
+      ]
     },
     {
-      title: 'Databases',
-      skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Elasticsearch', 'DynamoDB']
-    },
-    {
-      title: 'Tools & Frameworks',
-      skills: ['React Native', 'Django', 'Flask', 'Spring Boot', 'TensorFlow', 'PyTorch', 'Webpack', 'Vite']
+      title: 'Infrastructure & Telemetry',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-[var(--accent-cyan)]">
+          <path d="M18 10a5 5 0 0 0-9.5-2.5 4 4 0 0 0-4 4.5A4.5 4.5 0 0 0 9 21h9a4.5 4.5 0 0 0 0-9Z" />
+        </svg>
+      ),
+      skills: [
+        'Linux',
+        'Bash/Shell',
+        'Git',
+        'Docker',
+        'Google Cloud (GCP)',
+        'AWS',
+        'CI/CD (GitHub Actions)',
+        'OpenTelemetry'
+      ]
     }
-  ];
+  ], []);
 
   return (
-    <section id="skills" className="section-spacing bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 md:mb-8 text-gray-800">Technical Skills</h2>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+    <section id="skills" className="section content-auto">
+      <div className="container">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="section-heading">Technical Skills</h2>
+          <p className="section-subheading">
+            A comprehensive look at the tools, languages, and architectures I leverage to build 
+            robust, high-performance, and scalable systems.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
             {skillCategories.map((category, index) => (
-              <Card 
-                key={index}
-                elevation={Elevation.ONE}
-                className="profile-card p-4 sm:p-6 fade-in"
+              <article 
+                key={index} 
+                className="card scroll-reveal p-4 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:border-[var(--accent-cyan)] hover:shadow-glow-blue"
               >
-                <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800 pb-2 border-b border-gray-200">
-                  {category.title}
-                </h3>
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {category.skills.map((skill, skillIndex) => (
-                    <Tag 
-                      key={skillIndex}
-                      className="skill-tag text-xs sm:text-sm"
-                      minimal
+                <div>
+                  <div className="flex items-center gap-3 mb-5 pb-3 border-b border-[var(--border-subtle)]">
+                    <div 
+                      className="w-10 h-10 rounded-lg flex items-center justify-center bg-[var(--bg-surface)] border border-[var(--border-subtle)]"
                     >
-                      {skill}
-                    </Tag>
-                  ))}
+                      {category.icon}
+                    </div>
+                    <h3
+                      className="text-lg font-bold m-0 text-[var(--fg-primary)]"
+                    >
+                      {category.title}
+                    </h3>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-1.5">
+                    {category.skills.map((skill) => (
+                      <span key={skill} className="skill-tag">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </Card>
+              </article>
             ))}
           </div>
         </div>

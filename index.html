@@ -2,13 +2,70 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rahul Dange - Software Engineer & System Programmer</title>
-    <meta name="description" content="Professional profile of Rahul Dange - System Programmer, Software Engineer, and Web Application Developer with Master's in Computer Science from University of Sydney">
+    <meta name="color-scheme" content="light" />
+
+    <!-- SEO Meta -->
+    <title>Rahul Dange</title>
+    <meta name="description" content="Rahul Dange — Computer Engineer specializing in Systems, Algorithms, and Product Architecture. Master's in Computer Science from the University of Sydney." />
+    <meta name="author" content="Rahul Dange" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Rahul Dange — Computer Engineer | Systems, Algorithms & Product Architecture" />
+    <meta property="og:description" content="Building high-performance, low-latency systems and enterprise web applications." />
+    <meta property="og:type" content="website" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png?v=2" />
+
+    <!-- Preload critical Hero Image for LCP speed -->
+    <link rel="preload" as="image" href="/profile.png" fetchpriority="high" />
+
+    <!-- Preconnect to Google Fonts for Inter + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Font loading: Plus Jakarta Sans (500,600,700,800) + Inter (400,500,600) + JetBrains Mono (500) — display=swap for no FOIT -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+
+    <!-- Critical inline CSS: skeleton of hero section for instant first paint -->
+    <style>
+      :root { color-scheme: light; }
+      body {
+        margin: 0;
+        background: #f8fafc;
+        color: #0f172a;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      /* Minimal loading skeleton */
+      .app-skeleton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        color: #64748b;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 0.05em;
+      }
+      .app-skeleton::after {
+        content: 'initializing...';
+        animation: blink 1s step-end infinite;
+      }
+      @keyframes blink {
+        50% { opacity: 0; }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static skeleton shown until React hydrates — matches light theme -->
+      <div class="app-skeleton"></div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
