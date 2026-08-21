@@ -16,7 +16,7 @@ const PersonalInterests: React.FC = React.memo(() => {
             <div className="card scroll-reveal md:col-span-2 lg:col-span-2 p-4 sm:p-6 md:p-8 flex flex-col justify-between group relative overflow-hidden border-[var(--accent-cyan)] shadow-glow-blue">
               {/* Decorative faint background element */}
               <div 
-                className="absolute -right-4 -bottom-10 text-[180px] font-extrabold select-none pointer-events-none opacity-[0.02] font-mono leading-none transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-12 text-[var(--accent-cyan)]"
+                className="absolute -right-4 -bottom-10 text-[180px] font-extrabold select-none pointer-events-none opacity-[0.02]  leading-none transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-12 text-[var(--accent-cyan)]"
               >
                 ?
               </div>
@@ -56,19 +56,19 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">First-principles system designs</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">First-principles system designs</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Identifying and solving root causes</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Identifying and solving root causes</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Refactoring complex technical debt</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Refactoring complex technical debt</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Avoiding cargo-cult engineering</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Avoiding cargo-cult engineering</span>
                   </li>
                 </ul>
               </div>
@@ -89,7 +89,7 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <h3 className="text-lg sm:text-xl font-bold mb-2 text-[var(--fg-primary)]">
                   Open Source Contributions
                 </h3>
-                <p className="text-xs sm:text-sm leading-relaxed mb-6 text-[var(--fg-secondary)]">
+                <p className="text-sm sm:text-base leading-relaxed mb-6 text-[var(--fg-secondary)]">
                   Active participation in the collective tools and packages that power the global software community. 
                   Maintaining packages and contributing upstream ensures high quality, review standards, and keeps my skills sharp.
                 </p>
@@ -99,11 +99,11 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Upstream performance optimizations</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Upstream performance optimizations</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Maintaining developer command-line utilities</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Maintaining developer command-line utilities</span>
                   </li>
                 </ul>
               </div>
@@ -123,7 +123,7 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <h3 className="text-lg sm:text-xl font-bold mb-2 text-[var(--fg-primary)]">
                   Human Psychology
                 </h3>
-                <p className="text-xs sm:text-sm leading-relaxed mb-6 text-[var(--fg-secondary)]">
+                <p className="text-sm sm:text-base leading-relaxed mb-6 text-[var(--fg-secondary)]">
                   Software is constructed by people, run in teams, and used by end-users. Studying cognitive biases 
                   and behavior helps me design UX patterns that minimize friction and write team reviews that build 
                   empathy and psychological safety.
@@ -134,11 +134,11 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Cognitive ergonomics in design</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Cognitive ergonomics in design</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Healthy engineering team communication</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Healthy engineering team communication</span>
                   </li>
                 </ul>
               </div>
@@ -158,7 +158,7 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <h3 className="text-lg sm:text-xl font-bold mb-2 text-[var(--fg-primary)]">
                   Food Nutrition
                 </h3>
-                <p className="text-xs sm:text-sm leading-relaxed mb-6 text-[var(--fg-secondary)]">
+                <p className="text-sm sm:text-base leading-relaxed mb-6 text-[var(--fg-secondary)]">
                   Maintaining mental stamina is critical for deep work. I read about nutritional biochemistry and 
                   metabolic physiology to structure habits, control energy release levels, and maintain sharp cognitive focus.
                 </p>
@@ -168,11 +168,11 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Study of metabolic efficiency and nutrition</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Study of metabolic efficiency and nutrition</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Sustaining peak energy and mental clarity</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Sustaining peak energy and mental clarity</span>
                   </li>
                 </ul>
               </div>
@@ -193,7 +193,7 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <h3 className="text-lg sm:text-xl font-bold mb-2 text-[var(--fg-primary)]">
                   Teaching &amp; Mentorship
                 </h3>
-                <p className="text-xs sm:text-sm leading-relaxed mb-6 text-[var(--fg-secondary)]">
+                <p className="text-sm sm:text-base leading-relaxed mb-6 text-[var(--fg-secondary)]">
                   Simplifying advanced computational concepts is the ultimate test of understanding. I enjoy teaching, 
                   breaking down architecture patterns into intuitive mental models, and writing clear developer guides.
                 </p>
@@ -203,11 +203,11 @@ const PersonalInterests: React.FC = React.memo(() => {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Mentoring student and junior engineers</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Mentoring student and junior engineers</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Authoring architectural mental models</span>
+                    <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Authoring architectural mental models</span>
                   </li>
                 </ul>
               </div>
@@ -252,15 +252,15 @@ const PersonalInterests: React.FC = React.memo(() => {
                   <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <li className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Precise cuts & scissor control</span>
+                      <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Precise cuts & scissor control</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Adhesive & gum assembly detail</span>
+                      <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Adhesive & gum assembly detail</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[var(--border-default)] group-hover:bg-[var(--accent-cyan)] transition-colors flex-shrink-0" />
-                      <span className="text-xs sm:text-sm text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Drafting with pens & rulers</span>
+                      <span className="text-sm sm:text-base text-[var(--fg-secondary)] group-hover:text-[var(--fg-primary)] transition-colors">Drafting with pens & rulers</span>
                     </li>
                   </ul>
                 </div>

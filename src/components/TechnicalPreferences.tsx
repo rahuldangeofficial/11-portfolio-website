@@ -179,7 +179,7 @@ const TechnicalPreferences: React.FC = React.memo(() => {
                             {item.preference}
                           </span>
                         </div>
-                        <p className="text-sm leading-relaxed text-[var(--fg-muted)]">
+                        <p className="text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)]">
                           {item.description}
                         </p>
                       </div>

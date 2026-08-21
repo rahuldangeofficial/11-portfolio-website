@@ -2,36 +2,38 @@ import React from 'react';
 
 const About: React.FC = React.memo(() => {
   return (
-    <section id="about" className="section">
-      <div className="container">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="section-heading mb-8 md:mb-12">About Me</h2>
+    <section id="about" className="space-y-6">
+      <div className="pb-2 border-b border-[var(--border-default)]">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--fg-primary)]">
+          About
+        </h2>
+      </div>
 
-          <div className="card scroll-reveal p-4 sm:p-6 md:p-8">
-            <div className="space-y-4">
-              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
-                I am engineer who solves problems, real engineering problems, because I can see them in multiple dimensions. Every problem I encounter is a mechanism that forces my brain to expand. I systematically tear complexity apart, craft the necessary pieces of the solution, and fuse them together.
-              </p>
+      <div className="space-y-4 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 rounded-lg border border-[var(--border-default)] bg-[var(--bg-primary)] space-y-1.5">
+            <h3 className="text-sm font-bold text-[var(--fg-primary)]">
+              Systems Programming
+            </h3>
+            <p className="text-sm sm:text-base text-[var(--fg-secondary)] leading-relaxed">
+              C11/C++ with POSIX threads, atomic operations, custom memory allocators, and sanitizer-verified concurrency. Built <strong className="text-[var(--fg-primary)] ">MIMFS</strong> and <strong className="text-[var(--fg-primary)] ">LLFPL</strong> from scratch.
+            </p>
+          </div>
 
-              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
-                If you ask me how I know I can do this, it's because I have failed more times than I can count. But every single failure gave me the exact why and the what that I was missing. I am not driven by being the 'best' engineer in the room, I am driven by the absolute certainty that no matter the complexity, I will figure it out.
-              </p>
-
-              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
-                Beyond the code, my greatest asset is the ability to teach. My proof? I taught the most challenging student on the planet, myself. I took someone who felt entirely out of his depth and forged him into an engineer who genuinely believes he can solve anything.
-              </p>
-
-              <p className="leading-relaxed text-sm sm:text-base text-[var(--fg-secondary)]">
-                That is exactly what I bring to the table.
-              </p>
-            </div>
+          <div className="p-4 rounded-lg border border-[var(--border-default)] bg-[var(--bg-primary)] space-y-1.5">
+            <h3 className="text-sm font-bold text-[var(--fg-primary)]">
+              Full-Stack Development
+            </h3>
+            <p className="text-sm sm:text-base text-[var(--fg-secondary)] leading-relaxed">
+              JavaScript, Node.js, Express, MongoDB, and React. Built REST APIs, real-time apps with Socket.io, and interactive frontends.
+            </p>
           </div>
         </div>
+
       </div>
     </section>
   );
 });
 
 About.displayName = 'About';
-
 export default About;

@@ -22,17 +22,17 @@
   --fg-inverse: #ffffff;
 
   /* ── Color: Accents ── */
-  --accent-cyan: #1877F2;                 /* Primary Blue (#1877F2) */
-  --accent-cyan-bright: #2f86f4;          /* Bright Blue (Hover) */
-  --accent-cyan-dim: #0c53b3;             /* Darker Blue */
-  --accent-cyan-glow: rgba(24, 119, 242, 0.04);
-  --accent-cyan-glow-strong: rgba(24, 119, 242, 0.12);
+  --accent-cyan: #005bb5;                 /* True Deep Blue */
+  --accent-cyan-bright: #0071e3;          /* Bright True Blue (Hover) */
+  --accent-cyan-dim: #004488;             /* Darker True Blue */
+  --accent-cyan-glow: rgba(0, 91, 181, 0.04);
+  --accent-cyan-glow-strong: rgba(0, 91, 181, 0.12);
 
-  --accent-blue: #1877F2;                 /* Primary Blue (#1877F2) */
-  --accent-blue-bright: #2f86f4;          /* Bright Blue (Hover) */
-  --accent-blue-dim: #0c53b3;             /* Darker Blue */
-  --accent-blue-glow: rgba(24, 119, 242, 0.04);
-  --accent-blue-glow-strong: rgba(24, 119, 242, 0.12);
+  --accent-blue: #005bb5;                 /* True Deep Blue */
+  --accent-blue-bright: #0071e3;          /* Bright True Blue (Hover) */
+  --accent-blue-dim: #004488;             /* Darker True Blue */
+  --accent-blue-glow: rgba(0, 91, 181, 0.04);
+  --accent-blue-glow-strong: rgba(0, 91, 181, 0.12);
 
   --accent-green: #228B22;                /* Primary Green (#228B22) */
   --accent-green-bright: #2e9e2e;         /* Bright Green */
@@ -40,11 +40,11 @@
   --accent-green-glow: rgba(34, 139, 34, 0.04);
   --accent-green-glow-strong: rgba(34, 139, 34, 0.12);
 
-  --accent-purple: #1877F2;               /* Brand Blue */
-  --accent-purple-bright: #2f86f4;
-  --accent-purple-dim: #0c53b3;
-  --accent-purple-glow: rgba(24, 119, 242, 0.04);
-  --accent-purple-glow-strong: rgba(24, 119, 242, 0.12);
+  --accent-purple: #005bb5;               /* True Deep Blue */
+  --accent-purple-bright: #0071e3;
+  --accent-purple-dim: #004488;
+  --accent-purple-glow: rgba(0, 91, 181, 0.04);
+  --accent-purple-glow-strong: rgba(0, 91, 181, 0.12);
 
   /* ── Color: Borders ── */
   --border-subtle: rgba(24, 24, 27, 0.05);
@@ -56,15 +56,15 @@
   --status-success: #228B22;
   --status-warning: #d97706;
   --status-error: #dc2626;
-  --status-info: #1877F2;
+  --status-info: #005bb5;
 
   /* ── Grid lines ── */
   --hero-grid-line: rgba(9, 9, 11, 0.02);
 
   /* ── Typography ── */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Fluid type scale (min: 375px, max: 1440px) */
   --text-xs: clamp(0.6875rem, 0.66rem + 0.12vw, 0.75rem);       /* 11-12px */

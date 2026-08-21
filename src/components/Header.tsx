@@ -1,38 +1,32 @@
-import React from 'react';
-import { IconMail, IconPhone, IconMapPin, IconGithub, IconLinkedin, IconDownload, IconMenu, IconX } from './Icons';
+import React, { useState, useEffect, useMemo } from 'react';
+import { IconMail, IconPhone, IconGithub, IconLinkedin, IconDownload, IconTerminal } from './Icons';
 
 const Header: React.FC = React.memo(() => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [activeSection, setActiveSection] = React.useState('about');
+  
+  const [activeSection, setActiveSection] = useState('about');
 
-  const navigationItems = React.useMemo(() => [
+  const navigationItems = useMemo(() => [
     { id: 'about', label: 'About' },
+    { id: 'projects', label: 'Projects' },
     { id: 'experience', label: 'Experience' },
     { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
     { id: 'education', label: 'Education' },
-    { id: 'preferences', label: 'Tech Stack' },
-    { id: 'interests', label: 'Interests' },
     { id: 'publications', label: 'Publications' },
-    { id: 'volunteering', label: 'Volunteering' },
-    { id: 'mystory', label: 'My Story' },
     { id: 'contact', label: 'Contact' }
   ], []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const sectionIds = navigationItems.map(item => item.id);
 
     const observerOptions = {
       root: null,
-      rootMargin: '-10% 0px -60% 0px',
+      rootMargin: '-15% 0px -70% 0px',
       threshold: 0
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      // Find the entry that is currently intersecting the active viewport zone
       const intersecting = entries.filter(entry => entry.isIntersecting);
       if (intersecting.length > 0) {
-        // Highlight the top-most intersecting section
         const sorted = intersecting.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         setActiveSection(sorted[0].target.id);
       }
@@ -45,9 +39,8 @@ const Header: React.FC = React.memo(() => {
       if (el) observer.observe(el);
     });
 
-    // Highly lightweight scroll listener purely for bottom-page check (no layout thrashing)
     const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120) {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
         setActiveSection(sectionIds[sectionIds.length - 1]);
       }
     };
@@ -60,184 +53,120 @@ const Header: React.FC = React.memo(() => {
     };
   }, [navigationItems]);
 
-  const scrollToSection = React.useCallback((sectionId: string) => {
+  const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const globalLenis = (window as any).lenis;
-      if (globalLenis) {
-        globalLenis.scrollTo(element, {
-          offset: -80,
-          duration: 1.0,
-          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) // easeOutExpo
-        });
-      } else {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
+      const headerOffset = 70;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - headerOffset,
+        behavior: 'smooth'
+      });
     }
-    setIsMenuOpen(false);
-  }, []);
+    
+  };
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="hero py-12 sm:py-16 md:py-24 lg:py-28 relative overflow-hidden">
-        <div className="hero-gradient" />
-        <div className="hero-grid" />
-        <div className="container relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8 flex flex-col items-center">
-            
-            {/* Profile Picture */}
-            <div className="relative group select-none">
-              <div 
-                className="absolute inset-0 rounded-full blur-md opacity-20 group-hover:opacity-35 transition-opacity duration-500 bg-black"
-              />
-              <img 
-                src="/profile.png" 
-                alt="Rahul Dange" 
-                fetchpriority="high"
-                className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full object-cover border-2 border-[var(--border-default)] group-hover:border-black shadow-lg relative z-10 transition-all duration-500 transform group-hover:scale-[1.02] will-change-transform"
-              />
-            </div>
+      {/* ── HERO BANNER ── */}
+      <header className="pt-12 sm:pt-16 pb-8 border-b border-[var(--border-default)]">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 space-y-6">
+          
+          {/* Top Status */}
+          <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--fg-muted)]">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>Sydney, Australia</span>
+            <span>·</span>
+            <span>Full Work Rights (Subclass 485)</span>
+            <span>·</span>
+            <span className="text-[var(--accent-cyan)] font-medium">Open to junior / graduate roles</span>
+          </div>
 
-            {/* Name */}
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter leading-none text-[var(--fg-primary)]">
+          {/* Identity & Headline */}
+          <div className="space-y-2">
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--fg-primary)]">
               Rahul Dange
             </h1>
-
-            {/* Subtitle / Headline (Professional Title) */}
-            <p className="text-xl sm:text-2xl md:text-3xl font-normal tracking-tight text-[var(--fg-secondary)] leading-relaxed max-w-3xl">
-              Computer Engineer specializing in <span className="font-semibold text-[var(--fg-primary)]">Systems</span>, <span className="font-semibold text-[var(--fg-primary)]">Algorithms</span> &amp; <span className="font-semibold text-[var(--fg-primary)]">Product Architecture</span>
+            <p className="text-base sm:text-lg font-medium text-[var(--fg-secondary)]">
+              Computer Engineer | Systems Programming · Algorithms · Software Architecture
             </p>
-
-            {/* Education Tag (under title) */}
-            <div className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-4 py-2 sm:py-1 rounded-2xl sm:rounded-full text-[10px] sm:text-xs font-semibold uppercase tracking-wider bg-[var(--bg-surface)] text-[var(--fg-secondary)] border border-[var(--border-default)] text-center max-w-sm sm:max-w-none">
-              <span>University of Sydney</span>
-              <span className="hide-on-mobile sm:inline text-[var(--border-default)]">•</span>
-              <span>Master of Computer Science</span>
-              <span className="w-full sm:w-auto block sm:inline text-[var(--fg-secondary)] opacity-85">
-                (Software Engineering Specialization)
-              </span>
-            </div>
-
-            {/* Contact Info */}
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-y-2.5 gap-x-6 text-xs sm:text-sm text-[var(--fg-secondary)] pt-4 border-t border-[var(--border-subtle)] w-full max-w-2xl">
-              <a href="mailto:contact@rahuldange.com" className="flex items-center gap-2 hover:text-[var(--accent-cyan)] transition-colors text-[var(--fg-secondary)]">
-                <IconMail size={14} />
-                <span>contact@rahuldange.com</span>
-              </a>
-              
-              <div className="flex items-center justify-center gap-x-4 sm:gap-x-6 flex-wrap sm:contents">
-                <span className="flex items-center gap-2">
-                  <IconPhone size={14} />
-                  <span>+61 412954045</span>
-                </span>
-                <span className="hide-on-mobile sm:inline text-[var(--border-default)]">•</span>
-                <span className="flex items-center gap-2">
-                  <IconMapPin size={14} />
-                  <span>Sydney, Australia</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-3 w-full sm:w-auto max-w-xs sm:max-w-none">
-              <a
-                id="btn-download-resume"
-                href="/resume.pdf"
-                download="Rahul_Dange_Resume.pdf"
-                className="btn btn-primary btn-lg flex items-center justify-center gap-2 w-full sm:w-auto order-3 sm:order-1"
-              >
-                <IconDownload size={16} />
-                Download Resume
-              </a>
-              <a
-                id="btn-github"
-                href="https://github.com/rahuldangeofficial"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary btn-lg flex items-center justify-center gap-2 w-full sm:w-auto order-2 sm:order-2"
-              >
-                <IconGithub size={16} />
-                GitHub
-              </a>
-              <a
-                id="btn-linkedin"
-                href="https://www.linkedin.com/in/rahuldangeofficial/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary btn-lg flex items-center justify-center gap-2 w-full sm:w-auto order-1 sm:order-3"
-              >
-                <IconLinkedin size={16} />
-                LinkedIn
-              </a>
-            </div>
-
           </div>
+
+          {/* Bio */}
+          <div className="space-y-3 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)] max-w-3xl">
+            <p>
+              Computer Science graduate from the University of Sydney with a strong foundation in systems programming and low-level software development. Proficient in C, C++, memory management, concurrency, and core computer science fundamentals.
+            </p>
+            <p>
+              Also experienced in full-stack web development using JavaScript, Node.js, Express, MongoDB, and React. Comfortable working across both systems-level and application-level software.
+            </p>
+          </div>
+
+          {/* Contact */}
+          <div className="flex flex-wrap items-center gap-y-2 gap-x-5 text-xs sm:text-sm text-[var(--fg-secondary)]">
+            <a href="mailto:contact@rahuldange.com" className="flex items-center gap-1.5 hover:text-[var(--accent-cyan)] transition-colors">
+              <IconMail size={14} />
+              <span>contact@rahuldange.com</span>
+            </a>
+            <a href="tel:+61412954045" className="flex items-center gap-1.5 hover:text-[var(--accent-cyan)] transition-colors">
+              <IconPhone size={14} />
+              <span>+61 412 954 045</span>
+            </a>
+            <a href="https://github.com/rahuldangeofficial" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[var(--accent-cyan)] transition-colors">
+              <IconGithub size={14} />
+              <span>GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/rahuldangeofficial/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[var(--accent-cyan)] transition-colors">
+              <IconLinkedin size={14} />
+              <span>LinkedIn</span>
+            </a>
+          </div>
+
+          {/* Actions */}
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <a
+              id="btn-download-resume"
+              href="/resume.pdf"
+              download="resume_rahul_dange.pdf"
+              className="btn btn-primary btn-sm flex items-center gap-2 text-xs"
+            >
+              <IconDownload size={14} />
+              <span>Download Resume</span>
+            </a>
+
+            <button
+              onClick={() => scrollToSection('projects')}
+              className="btn btn-secondary btn-sm text-xs flex items-center gap-1.5"
+            >
+              <IconTerminal size={14} />
+              <span>View Projects</span>
+            </button>
+          </div>
+
         </div>
-      </section>
+      </header>
 
-      {/* Sticky Navigation */}
-      <nav className="nav-bar sticky top-0 z-50">
-        <div className="container">
-          <div className="max-w-6xl mx-auto">
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-center py-3">
-              <div className="flex items-center gap-1">
-                {navigationItems.map((item) => (
-                  <button
-                    key={item.id}
-                    id={`nav-${item.id}`}
-                    onClick={() => scrollToSection(item.id)}
-                    className={activeSection === item.id ? 'nav-link nav-link-active' : 'nav-link'}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+      {/* ── STICKY NAVIGATION ── */}
+      <nav className="sticky top-0 z-50 bg-white border-b border-[var(--border-default)] py-2.5">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 flex items-center gap-4">
+          <div className="flex items-center gap-2 text-sm font-semibold text-[var(--fg-primary)] shrink-0">
+            <span>Rahul Dange</span>
+          </div>
 
-            {/* Mobile Navigation Bar */}
-            <div className="lg:hidden flex items-center justify-between py-3 relative z-10">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-sm sm:text-base text-[var(--fg-primary)]">Rahul Dange</span>
-              </div>
-
+          <div className="flex items-center gap-1 text-[11px] sm:text-xs overflow-x-auto hide-scrollbar pb-1 sm:pb-0 w-full sm:w-auto">
+            {navigationItems.map((item) => (
               <button
-                id="btn-mobile-menu-toggle"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="btn btn-ghost p-2"
-                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`px-2.5 py-1 rounded-full whitespace-nowrap transition-colors ${
+                  activeSection === item.id
+                    ? 'bg-[var(--fg-primary)] text-[var(--bg-primary)] font-bold'
+                    : 'text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] hover:bg-[var(--bg-surface)]'
+                }`}
               >
-                {isMenuOpen ? <IconX size={20} /> : <IconMenu size={20} />}
+                {item.label}
               </button>
-            </div>
-
-            {/* Mobile Menu Panel */}
-            {isMenuOpen && (
-              <>
-                <div className="mobile-menu-overlay lg:hidden" onClick={() => setIsMenuOpen(false)} />
-                <div className="mobile-menu-panel lg:hidden">
-                  <div className="px-4 py-2 space-y-1">
-                    {navigationItems.map((item) => (
-                      <button
-                        key={item.id}
-                        id={`nav-mobile-${item.id}`}
-                        onClick={() => scrollToSection(item.id)}
-                        className={`w-full text-left ${activeSection === item.id ? 'nav-link nav-link-active' : 'nav-link'}`}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
+            ))}
           </div>
         </div>
       </nav>
@@ -246,5 +175,4 @@ const Header: React.FC = React.memo(() => {
 });
 
 Header.displayName = 'Header';
-
 export default Header;
