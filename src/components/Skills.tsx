@@ -16,11 +16,11 @@ const Skills: React.FC = React.memo(() => {
     },
     {
       title: 'Backend & Web',
-      skills: 'Java Spring Boot, Node.js, Express.js, REST APIs, PostgreSQL, MongoDB, React.js, HTML/CSS'
+      skills: 'Node.js, Express.js, REST APIs, PostgreSQL, MongoDB, React.js, HTML/CSS'
     },
     {
       title: 'Tools',
-      skills: 'Git, Docker, AWS, Make, Bash'
+      skills: 'Git, Docker, Make, Bash'
     }
   ];
 

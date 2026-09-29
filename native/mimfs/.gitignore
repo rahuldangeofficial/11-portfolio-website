@@ -1,0 +1,67 @@
+# Build output
+#
+# Everything the Makefile produces lands under one directory, so one rule covers
+# the object files, the dependency files, both libraries and every binary.
+/build/
+
+# Libraries and executables, in case they are ever built outside build/
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.lo
+*.d
+
+# Coverage instrumentation and reports
+*.gcda
+*.gcno
+*.gcov
+*.lcov
+*.profraw
+*.profdata
+/coverage/
+/cov/
+
+# Sanitizer and analyser output
+*.plist
+/sanitizer-reports/
+
+# Debug information
+*.dSYM/
+*.pdb
+*.su
+
+# Crash dumps. Anchored to the repository root and given an explicit shape,
+# because an unanchored "core" would also match the src/core directory.
+/core
+/core.[0-9]*
+vgcore.*
+perf.data
+perf.data.old
+
+# Editor and tooling state
+.cache/
+compile_commands.json
+.ccls-cache/
+.clangd/
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+tags
+TAGS
+cscope.out
+
+# Operating system metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini

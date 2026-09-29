@@ -9,34 +9,14 @@ import Publications from './components/Publications';
 import Contact from './components/Contact';
 
 function App() {
-  // Simple IntersectionObserver for smooth entrance without scroll hijacking
   useEffect(() => {
-    // Force start at the very top of the page on load
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
+    if (window.location.hash) {
+      try {
+        document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView();
+      } catch {
+        // Ignore malformed percent escapes in incoming fragment links.
+      }
     }
-    window.scrollTo(0, 0);
-
-    document.documentElement.classList.add('js-enabled');
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-          }
-        });
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
-    );
-
-    const targets = document.querySelectorAll('.scroll-reveal');
-    targets.forEach((el) => observer.observe(el));
-
-    return () => {
-      observer.disconnect();
-      document.documentElement.classList.remove('js-enabled');
-    };
   }, []);
 
   return (

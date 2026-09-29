@@ -55,8 +55,8 @@ const Contact: React.FC = React.memo(() => {
 
         <div className="pt-3">
           <a
-            href="/resume.pdf"
-            download="resume_rahul_dange.pdf"
+            href="/resume.v4.pdf"
+            download="resume.v4.pdf"
             className="btn btn-primary btn-sm flex items-center gap-2  text-xs inline-flex"
           >
             <IconDownload size={14} />

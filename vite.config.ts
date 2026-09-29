@@ -26,7 +26,9 @@ export default defineConfig({
       polyfill: false
     }
   },
+  preview: { headers: { 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Embedder-Policy': 'require-corp' } },
   server: {
+    headers: { 'Cross-Origin-Opener-Policy': 'same-origin', 'Cross-Origin-Embedder-Policy': 'require-corp' },
     hmr: {
       overlay: false
     }

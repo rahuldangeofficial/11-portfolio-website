@@ -24,12 +24,25 @@ const Header: React.FC = React.memo(() => {
       threshold: 0
     };
 
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      const intersecting = entries.filter(entry => entry.isIntersecting);
-      if (intersecting.length > 0) {
-        const sorted = intersecting.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        setActiveSection(sorted[0].target.id);
+    const visibleSections = new Map<string, number>();
+    let footerVisible = false;
+    const updateActiveSection = () => {
+      if (footerVisible) {
+        setActiveSection('contact');
+      } else if (visibleSections.size) {
+        const first = [...visibleSections].sort((a, b) => a[1] - b[1])[0];
+        setActiveSection(first[0]);
       }
+    };
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          visibleSections.set(entry.target.id, sectionIds.indexOf(entry.target.id));
+        } else {
+          visibleSections.delete(entry.target.id);
+        }
+      }
+      updateActiveSection();
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
@@ -39,32 +52,19 @@ const Header: React.FC = React.memo(() => {
       if (el) observer.observe(el);
     });
 
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
-        setActiveSection(sectionIds[sectionIds.length - 1]);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Observe the existing footer instead of reading page geometry on every scroll.
+    const footerObserver = new IntersectionObserver(([entry]) => {
+      footerVisible = entry.isIntersecting;
+      updateActiveSection();
+    });
+    const footer = document.querySelector('#contact footer');
+    if (footer) footerObserver.observe(footer);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('scroll', handleScroll);
+      footerObserver.disconnect();
     };
   }, [navigationItems]);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerOffset = 70;
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: elementPosition - headerOffset,
-        behavior: 'smooth'
-      });
-    }
-    
-  };
 
   return (
     <>
@@ -126,21 +126,21 @@ const Header: React.FC = React.memo(() => {
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <a
               id="btn-download-resume"
-              href="/resume.pdf"
-              download="resume_rahul_dange.pdf"
+              href="/resume.v4.pdf"
+              download="resume.v4.pdf"
               className="btn btn-primary btn-sm flex items-center gap-2 text-xs"
             >
               <IconDownload size={14} />
               <span>Download Resume</span>
             </a>
 
-            <button
-              onClick={() => scrollToSection('projects')}
+            <a
+              href="#projects"
               className="btn btn-secondary btn-sm text-xs flex items-center gap-1.5"
             >
               <IconTerminal size={14} />
               <span>View Projects</span>
-            </button>
+            </a>
           </div>
 
         </div>
@@ -155,9 +155,10 @@ const Header: React.FC = React.memo(() => {
 
           <div className="flex items-center gap-1 text-[11px] sm:text-xs overflow-x-auto hide-scrollbar pb-1 sm:pb-0 w-full sm:w-auto">
             {navigationItems.map((item) => (
-              <button
+              <a
+                href={`#${item.id}`}
+                aria-current={activeSection === item.id ? 'location' : undefined}
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
                 className={`px-2.5 py-1 rounded-full whitespace-nowrap transition-colors ${
                   activeSection === item.id
                     ? 'bg-[var(--fg-primary)] text-[var(--bg-primary)] font-bold'
@@ -165,7 +166,7 @@ const Header: React.FC = React.memo(() => {
                 }`}
               >
                 {item.label}
-              </button>
+              </a>
             ))}
           </div>
         </div>
