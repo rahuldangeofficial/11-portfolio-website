@@ -1,5 +1,6 @@
 import React from 'react';
 import { IconMail, IconPhone, IconGithub, IconLinkedin, IconDownload } from './Icons';
+import { applicationSummary } from '../lib/profile';
 
 const Contact: React.FC = React.memo(() => {
   return (
@@ -12,7 +13,7 @@ const Contact: React.FC = React.memo(() => {
 
       <div className="space-y-4">
         <p className="text-sm sm:text-base text-[var(--fg-secondary)]">
-          Open to junior / graduate software engineering roles. Reach out via email or phone.
+          {applicationSummary}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base  pt-2">

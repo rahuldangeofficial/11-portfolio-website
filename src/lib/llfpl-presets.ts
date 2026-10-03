@@ -130,15 +130,25 @@ Map(InitPID, val,
     )
 )
 
+-- Preserve the computed output while updating the previous-error slot.
+Map(StorePrevious, control, error,
+    plus(control, multiply(0, write_offset(PIDState, OFFSET_PREV, error)))
+)
+
+Map(ControlFromState, error, integral, previous,
+    StorePrevious(
+        plus(multiply(Kp, error),
+            plus(multiply(Ki, integral), multiply(Kd, minus(error, previous)))),
+        error
+    )
+)
+
 Map(ComputeControl, current,
-    Identity(Err, minus(Setpoint, current)),
-    write_offset(PIDState, OFFSET_INT, plus(read_offset(PIDState, OFFSET_INT), Err)),
-    plus(
-        multiply(Kp, Err),
-        plus(
-            multiply(Ki, read_offset(PIDState, OFFSET_INT)),
-            multiply(Kd, minus(Err, read_offset(PIDState, OFFSET_PREV)))
-        )
+    ControlFromState(
+        minus(Setpoint, current),
+        write_offset(PIDState, OFFSET_INT,
+            plus(read_offset(PIDState, OFFSET_INT), minus(Setpoint, current))),
+        read_offset(PIDState, OFFSET_PREV)
     )
 )
 

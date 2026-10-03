@@ -106,8 +106,10 @@ const Projects: React.FC = React.memo(() => {
         <strong className="text-[var(--fg-primary)]">About the interactive demos:</strong>{' '}
         MIMFS runs the real C filesystem compiled to WebAssembly in a background worker,
         with real POSIX threads when supported by the browser and hosting configuration.
-        Its 8 MiB volume is temporary and resets on refresh. LLFPL is still a JavaScript
-        simulation; its timings are not native benchmarks. For the full native projects, build{' '}
+        Its 8 MiB volume is temporary and resets on refresh. LLFPL also runs its real C
+        interpreter and standard library through WebAssembly, with a fresh session for each Run.
+        Browser timings differ from native execution; direct CPU-register synchronization is
+        unavailable here. For the full native projects, build{' '}
         <a href="https://github.com/rahuldangeofficial/MIMFS#readme" target="_blank" rel="noopener noreferrer" className="hover:underline">MIMFS</a>{' '}or{' '}
         <a href="https://github.com/rahuldangeofficial/LLFPL#readme" target="_blank" rel="noopener noreferrer" className="hover:underline">LLFPL</a>{' '}
         locally using the setup instructions in each repository.

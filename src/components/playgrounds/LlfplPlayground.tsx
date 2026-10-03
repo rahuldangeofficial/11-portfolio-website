@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { PRESETS } from '../../lib/llfpl-presets';
-import type { ExecutionLog } from '../../lib/llfpl';
+import type { ExecutionLog, LlfplResult } from '../../lib/llfpl';
 import { IconPlay, IconRotateCcw, IconTerminal, IconCpu } from '../Icons';
 
 export const LlfplPlayground: React.FC = React.memo(() => {
@@ -66,9 +66,15 @@ export const LlfplPlayground: React.FC = React.memo(() => {
     try {
       const worker = new Worker(new URL('../../lib/llfpl.worker.ts', import.meta.url), { type: 'module' });
       workerRef.current = worker;
-      worker.onmessage = (event: MessageEvent<ReturnType<typeof import('../../lib/llfpl').executeLlfpl>>) => {
+      worker.onmessage = (event: MessageEvent<{type:'ready'} | {type:'error';message:string} | {type:'result';result:LlfplResult}>) => {
         if (workerRef.current !== worker) return;
-        const result = event.data;
+        if (event.data.type === 'ready') {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => fail('Execution stopped after 2 seconds. Reduce the workload or run the native project locally.'), 2000);
+          return;
+        }
+        if (event.data.type === 'error') { fail(event.data.message); return; }
+        const result = event.data.result;
         setLogs(result.logs);
         setSlabs(result.slabs);
         setStats(result.stats);
@@ -76,8 +82,9 @@ export const LlfplPlayground: React.FC = React.memo(() => {
         cancelExecution();
         setIsRunning(false);
       };
-      worker.onerror = () => fail('Browser worker failed. Reset and try again, or use the native runtime.');
-      timeoutRef.current = setTimeout(() => fail('Execution stopped after 2 seconds. Reduce the workload or run the native project locally.'), 2000);
+      worker.onerror = () => { if (workerRef.current === worker) fail('WebAssembly worker failed. Reset and try again.'); };
+      worker.onmessageerror = () => { if (workerRef.current === worker) fail('Could not read the WebAssembly result. Reset and try again.'); };
+      timeoutRef.current = setTimeout(() => fail('WebAssembly could not load within 15 seconds. Check your connection and try again.'), 15000);
       worker.postMessage(sourceCode);
     } catch {
       fail('This browser could not start the demo worker. Use a browser with Web Worker support or run the native project locally.');
@@ -199,7 +206,7 @@ export const LlfplPlayground: React.FC = React.memo(() => {
         <div className={`flex-1 bg-[#0d1117] flex-col min-h-0 h-full ${activeTab === 'editor' ? 'flex' : 'hidden'}`}>
           <div className="flex items-center justify-between p-3 border-b border-[#21262d] text-gray-400 text-[11px] bg-[#161b22]/40 shrink-0">
             <span>program.LLFPL</span>
-            <span className="text-gray-500">AST-less evaluation</span>
+            <span className="text-gray-500">C / WebAssembly</span>
           </div>
 
           <div className="flex-1 flex relative overflow-hidden group">

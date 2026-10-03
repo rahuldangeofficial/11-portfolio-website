@@ -14,3 +14,15 @@ for (const threaded of [false, true]) {
   const result = spawnSync(emcc, args, {stdio:'inherit'});
   if(result.status!==0) process.exit(result.status || 1);
 }
+
+// LLFPL: compile the real parser/evaluator and embed its actual standard library.
+const llfplRoot = 'native/llfpl';
+const llfplSources = ['core','frontend','hardware','interpreter','memory','runtime'].flatMap(dir =>
+  readdirSync(`${llfplRoot}/src/${dir}`).filter(f => f.endsWith('.c') && f !== 'interpreter_session.c').map(f => `${llfplRoot}/src/${dir}/${f}`));
+const llfplBuild = spawnSync(emcc, [...llfplSources, 'native/bridge/llfpl_browser.c',
+  '-I'+llfplRoot+'/include', '-std=c11', '-D_XOPEN_SOURCE=700', '-D_POSIX_C_SOURCE=200809L', '-O2', '-Wall', '-Wextra',
+  '-sMODULARIZE=1', '-sEXPORT_ES6=1', '-sENVIRONMENT=web,worker,node',
+  '-sINITIAL_MEMORY=67108864', '-sSTACK_SIZE=2097152', '-sALLOW_MEMORY_GROWTH=0', '-sABORTING_MALLOC=0',
+  '-sEXPORTED_RUNTIME_METHODS=["ccall"]', '--embed-file', `${llfplRoot}/lib/llfpl@/lib/llfpl`,
+  '-o', 'public/wasm/llfpl.mjs'], {stdio:'inherit'});
+if(llfplBuild.status!==0) process.exit(llfplBuild.status || 1);
