@@ -1172,3 +1172,57 @@ header .hero-title-row .hero-theme-position { position:static; width:auto; heigh
  .hero-title-row .appearance-toggle { width:78px; height:26px; padding:2px; font-size:10px; line-height:20px; border-radius:5px; }
  .hero-title-row .appearance-selection { top:2px; bottom:2px; left:2px; width:calc((100% - 4px)/2); border-radius:3px; }
 }
+
+/* Keep the professional headline prominent on phones as well. */
+@media(max-width:639px) {
+ .hero-disciplines { font-size:clamp(12px,3.65vw,16px); line-height:1.55; font-weight:600; color:var(--fg-primary); gap:5px; }
+ header .hero-copy > p:first-child { color:var(--fg-secondary); }
+}
+
+@media(max-width:639px) {
+ .hero-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+ .hero-actions > a { width:100%; min-width:0; justify-content:center; padding-left:8px; padding-right:8px; }
+ .hero-location { display:flex; flex-direction:column; gap:3px; }
+ .hero-location .location-separator { display:none; }
+}
+
+/* Consistent final demo-control sizing at every breakpoint. */
+.interactive-demo .mimfs-presets { align-items:stretch; grid-auto-rows:auto; }
+.interactive-demo .mimfs-presets button { height:36px; min-height:36px; display:inline-flex; align-items:center; justify-content:center; line-height:16px; }
+.interactive-demo .llfpl-new-file input,
+.interactive-demo .llfpl-new-file button { box-sizing:border-box; width:100%; height:36px; min-height:36px; max-height:36px; padding:6px 8px; margin:0; font-size:12px; line-height:20px; }
+.interactive-demo .llfpl-new-file input::placeholder { font-size:12px; color:#8b949e; opacity:1; }
+
+/* Shared geometry and typography for both interactive workspaces. */
+.interactive-demo { border-radius:8px; font-family:var(--font-mono); font-size:12px; line-height:1.6; }
+.interactive-demo button,
+.interactive-demo select,
+.interactive-demo .llfpl-new-file input {
+ box-sizing:border-box; min-height:36px; border-radius:4px;
+ font-family:var(--font-mono); font-size:12px; line-height:20px; font-weight:500;
+ padding:6px 10px;
+}
+.interactive-demo button svg { flex-shrink:0; }
+.interactive-demo input,
+.interactive-demo textarea,
+.interactive-demo pre { font-family:var(--font-mono); }
+.interactive-demo textarea,
+.interactive-demo pre,
+.interactive-demo [class*="w-10"][class*="select-none"] { font-size:13px; line-height:1.7; }
+.interactive-demo .llfpl-file-list button { border-radius:0; font-size:11px; line-height:18px; }
+.interactive-demo .block-cell { padding:0; min-height:36px; border-radius:4px; font-size:11px; line-height:18px; }
+.interactive-demo .llfpl-new-file input,
+.interactive-demo .llfpl-new-file button { height:36px; }
+.interactive-demo .llfpl-new-file input::placeholder { font:inherit; }
+.interactive-demo .inode-table { font-size:11px; line-height:18px; }
+.interactive-demo .inode-table-wrap { border-radius:4px; }
+@media(max-width:639px) {
+ .interactive-demo button,.interactive-demo select { font-size:12px; }
+ .interactive-demo .llfpl-file-list button { font-size:11px; }
+ .interactive-demo .block-cell { font-size:11px; }
+ .interactive-demo .mimfs-presets button { padding:6px 4px; font-size:11px; }
+}
+.interactive-demo .mimfs-presets.mimfs-presets button,
+.interactive-demo .demo-program-controls.demo-program-controls button { font-size:12px; }
+.interactive-demo input[aria-label="MIMFS command"] { font-size:13px; line-height:1.7; font-family:var(--font-mono); }
+.interactive-demo input[aria-label="MIMFS command"]::placeholder { font:inherit; }

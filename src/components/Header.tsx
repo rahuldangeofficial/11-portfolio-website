@@ -4,24 +4,21 @@ import { IconMail, IconGithub, IconLinkedin, IconDownload, IconTerminal } from '
 const Header: React.FC = React.memo(() => {
   
   const [isDark, setIsDark] = useState(false);
-  const [themeMode, setThemeMode] = useState('system');
+  const [themeMode, setThemeMode] = useState('light');
   useEffect(() => {
     try {
       const saved = localStorage.getItem('portfolio-theme-mode');
       if (saved === 'light' || saved === 'dark') setThemeMode(saved);
-    } catch { /* Follow system preferences when storage is unavailable. */ }
+    } catch { /* Light is the default when storage is unavailable. */ }
   }, []);
   useEffect(() => {
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
     const sync = () => {
-      const resolved = themeMode === 'system' ? (media.matches ? 'dark' : 'light') : themeMode;
-      document.documentElement.dataset.theme = resolved;
-      setIsDark(resolved === 'dark');
+      document.documentElement.dataset.theme = themeMode;
+      setIsDark(themeMode === 'dark');
     };
     const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 80;
     const timer = window.setTimeout(sync, delay);
-    media.addEventListener('change', sync);
-    return () => { window.clearTimeout(timer); media.removeEventListener('change', sync); };
+    return () => window.clearTimeout(timer);
   }, [themeMode]);
   const chooseTheme = (mode: string) => {
     setThemeMode(mode);
@@ -129,7 +126,7 @@ const Header: React.FC = React.memo(() => {
               I’m a computer engineer, a systems experimenter and an Academic Tutor at the University of Sydney.
             </p>
             <p>
-              I spend most of my time building software, learning how it works and helping others understand it. My focus is C/C++, memory management, concurrency, filesystems and language implementation. I explore ideas by building, testing and comparing different designs.
+              I spend most of my time building software, learning how it works and helping others understand it. My focus <span className="whitespace-nowrap">is C/C++</span>, memory management, concurrency, filesystems and language implementation. I explore ideas by building, testing and comparing different designs.
             </p>
             <p>
               I also build web applications with React, Node.js and databases. I’ve developed e-commerce software, built platforms for students and led an industry capstone from requirements to a working application.
@@ -141,7 +138,7 @@ const Header: React.FC = React.memo(() => {
               I hold a master’s in computer science from the University of Sydney. I’m looking for junior or graduate software engineering roles where I can contribute to systems, backend services or full-stack applications.
             </p>
             <p>
-              Sydney, Australia · Open to relocation · Full work rights (Australia)
+              <span className="hero-location"><span>Sydney, Australia · Open to relocation</span><span className="location-separator" aria-hidden="true"> · </span><span>Full work rights (Australia)</span></span>
             </p>
           </div>
 
@@ -162,7 +159,7 @@ const Header: React.FC = React.memo(() => {
           </div>
 
           {/* Actions */}
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          <div className="hero-actions flex flex-wrap items-center gap-3 pt-1">
             <a
               id="btn-download-resume"
               href="/resume.v4.pdf"
