@@ -1226,3 +1226,11 @@ header .hero-title-row .hero-theme-position { position:static; width:auto; heigh
 .interactive-demo .demo-program-controls.demo-program-controls button { font-size:12px; }
 .interactive-demo input[aria-label="MIMFS command"] { font-size:13px; line-height:1.7; font-family:var(--font-mono); }
 .interactive-demo input[aria-label="MIMFS command"]::placeholder { font:inherit; }
+
+/* Natural mobile paragraph flow prevents Safari's balanced short lines. */
+@media(max-width:639px) {
+ header .hero-copy, header .hero-copy > p, header .hero-copy > p:first-child {
+  width:100%; max-width:none; text-wrap:wrap; text-align:left;
+  word-break:normal; overflow-wrap:normal; hyphens:none;
+ }
+}

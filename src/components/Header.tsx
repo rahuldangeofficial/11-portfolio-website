@@ -129,7 +129,7 @@ const Header: React.FC = React.memo(() => {
               I spend most of my time building software, learning how it works and helping others understand it. My focus <span className="whitespace-nowrap">is C/C++</span>, memory management, concurrency, filesystems and language implementation. I explore ideas by building, testing and comparing different designs.
             </p>
             <p>
-              I also build web applications with React, Node.js and databases. I’ve developed e-commerce software, built platforms for students and led an industry capstone from requirements to a working application.
+              I also build web applications with React, Node.js and databases. I’ve developed <span className="whitespace-nowrap">e-commerce</span> software, built platforms for students and led an industry capstone from requirements to a working application.
             </p>
             <p>
               Building and taking initiative have gone together throughout my studies. I started a student resource-sharing app and a cybersecurity club, coordinated a college hackathon, and led several project teams. Today, I also teach C and systems programming.
