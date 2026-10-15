@@ -22,7 +22,7 @@ const experience = [
     company: 'University of Sydney × Aeoflo',
     employment: '',
     dates: 'Aug 2025 - Nov 2025',
-    location: 'Remote',
+    location: 'Stockholm, Stockholm County, Sweden · Remote',
     description: 'Built and delivered a full-stack GEO auditing application that evaluated product-page URLs and suggested improvements. Led architecture, implementation and integration using React and Node.js, including Chromium-based page extraction. Grouped 304 candidate evaluation parameters by functional behaviour and used LLM-based experiments to investigate their importance and inform scoring.',
   },
   {
