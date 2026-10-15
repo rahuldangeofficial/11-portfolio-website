@@ -10,6 +10,14 @@ const additionalExperience = [
     description: 'Worked on a project basis on System One’s MCK1 kernel/compiler initiative, contributing low-level software development and systems architecture. Conducted exploratory photonic integrated-circuit research, developing experimental concepts and prototype models. This work remained exploratory and was not fully validated.',
   },
   {
+    title: 'Project Lead & Full-Stack Developer (Industry Capstone)',
+    company: 'University of Sydney × Aeoflo',
+    employment: '',
+    dates: 'Aug 2025 - Nov 2025',
+    location: 'Remote',
+    description: 'Built and delivered a full-stack GEO auditing application that evaluated product-page URLs and suggested improvements. Led architecture, implementation and integration using React and Node.js, including Chromium-based page extraction. Grouped 304 candidate evaluation parameters by functional behaviour and used LLM-based experiments to investigate their importance and inform scoring.',
+  },
+  {
     title: 'Full Stack Engineer',
     company: 'ChessVerst',
     employment: 'Part-time',
@@ -79,7 +87,7 @@ const Experience: React.FC = React.memo(() => {
               <span className="text-xs text-[var(--fg-muted)] shrink-0">{role.dates}</span>
             </div>
             <div className="flex flex-wrap items-center gap-x-3 text-xs sm:text-sm text-[var(--accent-cyan)] font-medium">
-              <span>{role.company} · {role.employment}</span>
+              <span>{role.company}{role.employment && ` · ${role.employment}`}</span>
               <span className="text-[var(--border-default)]">·</span>
               <span className="text-[var(--fg-muted)]">{role.location}</span>
             </div>
