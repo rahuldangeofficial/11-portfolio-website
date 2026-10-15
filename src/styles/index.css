@@ -1234,3 +1234,16 @@ header .hero-title-row .hero-theme-position { position:static; width:auto; heigh
   word-break:normal; overflow-wrap:normal; hyphens:none;
  }
 }
+
+/* Consistent paragraph edges across viewport widths. */
+header .hero-copy > p:not(:last-child) {
+ text-align:justify;
+ text-align-last:left;
+ text-justify:inter-word;
+ text-wrap:wrap;
+ hyphens:none;
+ -webkit-hyphens:none;
+ overflow-wrap:normal;
+ word-break:normal;
+}
+header .hero-copy > p:last-child { text-align:left; }
