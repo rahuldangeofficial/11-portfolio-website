@@ -65,9 +65,9 @@ const Experience: React.FC = React.memo(() => {
               <span className="text-[var(--fg-muted)]">{role.location}</span>
             </div>
           </div>
-          <ul className="space-y-2 list-disc list-outside pl-4 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)]">
-            <li>{role.description}</li>
-          </ul>
+          <p className="text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)]">
+            {role.description}
+          </p>
         </div>
       ))}
     </section>
