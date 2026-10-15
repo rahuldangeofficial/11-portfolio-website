@@ -95,10 +95,22 @@ const Header: React.FC = React.memo(() => {
           {/* Bio */}
           <div className="space-y-3 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)] max-w-3xl">
             <p>
-              Computer Science graduate from the University of Sydney with a strong foundation in systems programming and low-level software development. Proficient in C, C++, memory management, concurrency, and core computer science fundamentals.
+              I’m a computer engineer, a systems experimenter and an Academic Tutor at the University of Sydney.
             </p>
             <p>
-              Also experienced in full-stack web development using JavaScript, Node.js, Express, MongoDB, and React. Comfortable working across both systems-level and application-level software.
+              Most of my time goes into building software, learning how it works and helping others understand it. My main interest is C/C++, memory management, concurrency, filesystems and language implementation. I like taking an idea, trying different designs and working through the details until I understand it.
+            </p>
+            <p>
+              I also build web applications with React, Node.js and databases. I’ve developed e-commerce software, built platforms for students and led an industry capstone from requirements to a working application.
+            </p>
+            <p>
+              Building and taking initiative have gone together throughout my studies. I started a student resource-sharing app and a cybersecurity club, coordinated a college hackathon, and led several project teams. Today, I also teach C and systems programming.
+            </p>
+            <p>
+              I hold a master’s in computer science from the University of Sydney. I’m looking for junior or graduate software engineering roles where I can contribute to systems, backend services or full-stack applications.
+            </p>
+            <p>
+              Sydney · Full Australian work rights
             </p>
           </div>
 
