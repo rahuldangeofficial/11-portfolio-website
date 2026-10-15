@@ -2,20 +2,20 @@ import React from 'react';
 
 const additionalExperience = [
   {
-    title: 'Systems Engineer & Chief Technology Officer',
+    title: 'System Engineer',
     company: 'Alethi',
-    employment: 'Self-employed',
+    employment: 'Part-time',
     dates: 'Jan 2026 - Aug 2026',
     location: 'Sydney, New South Wales, Australia · Hybrid',
-    description: 'Equity-based role building MCK1, a unikernel architecture that uses a high-level language and graph description to build custom kernels and runtimes. Designed the low-level system architecture for direct hardware execution, with a focus on security, performance and deterministic behaviour.',
+    description: 'Worked on a project basis on System One’s MCK1 kernel/compiler initiative, contributing low-level software development and systems architecture. Conducted exploratory photonic integrated-circuit research, developing experimental concepts and prototype models. This work remained exploratory and was not fully validated.',
   },
   {
-    title: 'Full-Stack Engineer & Chief Technology Officer',
+    title: 'Full Stack Engineer',
     company: 'ChessVerst',
-    employment: 'Self-employed',
+    employment: 'Part-time',
     dates: 'Feb 2021 - Jul 2023',
     location: 'Pune District, Maharashtra, India · Hybrid',
-    description: 'Equity-based role designing the platform architecture from wireframes through frontend, backend and database design. Built the platform using React, Next.js, PostgreSQL and REST APIs, including reusable frontend and backend components.',
+    description: 'Translated product requirements into specifications, wireframes and application architecture for a chess community platform. Developed frontend interfaces, backend services, database functionality and APIs. Worked across UI/UX, testing and integration to bring the platform together.',
   },
   {
     title: 'Associate Software Engineer',
@@ -23,7 +23,7 @@ const additionalExperience = [
     employment: 'Internship',
     dates: 'Mar 2022 - Aug 2022',
     location: 'Bengaluru, Karnataka, India · Remote',
-    description: 'Built an e-commerce platform using React, Express.js, Node.js and MongoDB with a reusable application architecture. Developed frontend components, backend services and REST APIs, and integrated them across the application.',
+    description: 'Developed e-commerce application functionality using React, Node.js, Express and MongoDB, covering frontend interfaces and backend integration. Completed and handed over a reusable e-commerce application template at the company’s request. Also participated in candidate interviews for the project team.',
   },
 ];
 
@@ -43,7 +43,7 @@ const Experience: React.FC = React.memo(() => {
               Academic Tutor: Systems Programming (COMP2017)
             </h3>
             <span className="text-xs  text-[var(--fg-muted)]">
-              Feb 2026 - Present
+              Jan 2026 - Present
             </span>
           </div>
 
@@ -56,13 +56,10 @@ const Experience: React.FC = React.memo(() => {
 
         <ul className="space-y-2 list-disc list-outside pl-4 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)]">
           <li>
-            Instruct undergraduate computer science and software engineering students in C systems programming: memory layout, pointer arithmetic, struct alignment, and stack versus heap allocation.
+            Delivered tutorials and supported students learning C and systems programming, including memory management, pointers, processes, inter-process communication and concurrency.
           </li>
           <li>
-            Conduct hands-on tutorials on POSIX multithreading and concurrency: mutexes, condition variables, semaphores, and race condition prevention.
-          </li>
-          <li>
-            Guide debugging workflows for memory leaks, buffer overflows, and segmentation faults using GDB, Valgrind, and LLVM sanitizers.
+            Helped students reason about program behaviour and debug their implementations using tools including GDB and Valgrind.
           </li>
         </ul>
 
