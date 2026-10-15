@@ -3,6 +3,7 @@ import Header from './components/Header';
 import About from './components/About';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
+import Volunteering from './components/Volunteering';
 import Skills from './components/Skills';
 import Education from './components/Education';
 import Publications from './components/Publications';
@@ -22,13 +23,14 @@ function App() {
   return (
     <div className="min-h-screen bg-[var(--bg-root)] text-[var(--fg-primary)] selection:bg-[var(--fg-primary)] selection:text-[var(--bg-primary)]">
       <Header />
-      <main className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 py-8 space-y-16 sm:space-y-20">
+      <main className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 py-8 grid gap-y-16 sm:gap-y-20">
         <About />
         <Projects />
         <Experience />
         <Skills />
         <Education />
         <Publications />
+        <Volunteering />
         <Contact />
       </main>
     </div>

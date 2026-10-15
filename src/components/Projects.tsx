@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { IconGithub, IconExternalLink, IconTerminal } from './Icons';
-import LlfplPlayground from './playgrounds/LlfplPlayground';
-import MimfsPlayground from './playgrounds/MimfsPlayground';
+const LlfplPlayground = lazy(() => import('./playgrounds/LlfplPlayground'));
+const MimfsPlayground = lazy(() => import('./playgrounds/MimfsPlayground'));
 
 interface SecondaryProjectItem {
   title: string;
@@ -36,7 +36,7 @@ const secondaryProjects: SecondaryProjectItem[] = [
     github: 'https://github.com/rahuldangeofficial/18-sentinel-daemon-experimental'
   },
   {
-    title: 'edit: Minimalist Terminal Text Editor',
+    title: 'Edit: Minimalist Terminal Text Editor',
     tags: 'C, POSIX, UTF-8',
     description: 'Minimalist, zero-config terminal text editor native to UTF-8 with crash-safe persistence. Compiles into a 64 KB memory binary footprint.',
     bullets: [
@@ -103,16 +103,13 @@ const Projects: React.FC = React.memo(() => {
       </div>
 
       <p className="text-sm text-[var(--fg-secondary)] leading-relaxed">
-        <strong className="text-[var(--fg-primary)]">About the interactive demos:</strong>{' '}
-        MIMFS runs the real C filesystem compiled to WebAssembly in a background worker,
-        with real POSIX threads when supported by the browser and hosting configuration.
-        Its 8 MiB volume is temporary and resets on refresh. LLFPL also runs its real C
-        interpreter and standard library through WebAssembly, with a fresh session for each Run.
-        Browser timings differ from native execution; direct CPU-register synchronization is
-        unavailable here. For the full native projects, build{' '}
-        <a href="https://github.com/rahuldangeofficial/MIMFS#readme" target="_blank" rel="noopener noreferrer" className="hover:underline">MIMFS</a>{' '}or{' '}
+        Both demos run the projects’ C code through WebAssembly. MIMFS uses a temporary
+        8 MiB volume that resets on refresh. LLFPL starts a fresh runtime each time you
+        run a file. Browser performance differs from native execution, and POSIX thread
+        support depends on the browser and hosting setup. See the{' '}
+        <a href="https://github.com/rahuldangeofficial/MIMFS#readme" target="_blank" rel="noopener noreferrer" className="hover:underline">MIMFS</a>{' '}and{' '}
         <a href="https://github.com/rahuldangeofficial/LLFPL#readme" target="_blank" rel="noopener noreferrer" className="hover:underline">LLFPL</a>{' '}
-        locally using the setup instructions in each repository.
+        repositories for native builds and implementation details. Direct CPU-register synchronization is not available in the browser.
       </p>
 
       {/* ═══════════════════════════════════════════════════════════════
@@ -173,7 +170,7 @@ const Projects: React.FC = React.memo(() => {
 
           {playgrounds.mimfs && (
             <div className="pt-3 animate-fadeIn">
-              <MimfsPlayground />
+              <Suspense fallback={<p>Loading demo…</p>}><MimfsPlayground /></Suspense>
             </div>
           )}
         </div>
@@ -231,7 +228,7 @@ const Projects: React.FC = React.memo(() => {
 
           {playgrounds.llfpl && (
             <div className="pt-3 animate-fadeIn">
-              <LlfplPlayground />
+              <Suspense fallback={<p>Loading demo…</p>}><LlfplPlayground /></Suspense>
             </div>
           )}
         </div>
@@ -270,7 +267,7 @@ const Projects: React.FC = React.memo(() => {
                   {p.description}
                 </p>
 
-                <ul className="space-y-1 list-disc list-outside pl-4 text-xs text-[var(--fg-secondary)]">
+                <ul className="space-y-1 list-disc list-outside pl-4 text-sm text-[var(--fg-secondary)]">
                   {p.bullets.map((b, bIdx) => (
                     <li key={bIdx}>{b}</li>
                   ))}

@@ -1,10 +1,9 @@
 import React from 'react';
-import { IconMail, IconPhone, IconGithub, IconLinkedin, IconDownload } from './Icons';
-import { applicationSummary } from '../lib/profile';
+import { IconMail, IconGithub, IconLinkedin, IconDownload } from './Icons';
 
 const Contact: React.FC = React.memo(() => {
   return (
-    <section id="contact" className="space-y-6 pt-4">
+    <section id="contact" className="space-y-6">
       <div className="pb-2 border-b border-[var(--border-default)]">
         <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--fg-primary)]">
           Contact
@@ -12,45 +11,33 @@ const Contact: React.FC = React.memo(() => {
       </div>
 
       <div className="space-y-4">
-        <p className="text-sm sm:text-base text-[var(--fg-secondary)]">
-          {applicationSummary}
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base  pt-2">
+        <div className="flex flex-wrap items-center gap-x-7 gap-y-3 text-sm sm:text-base pt-2">
           <a
             href="mailto:contact@rahuldange.com"
-            className="p-3 rounded border border-[var(--border-default)] hover:border-[var(--accent-cyan)] flex items-center gap-2.5 transition-colors"
+            className="inline-flex items-center gap-2 py-2 text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] transition-colors"
           >
             <IconMail size={15} className="text-[var(--accent-cyan)]" />
             <span className="truncate">contact@rahuldange.com</span>
           </a>
 
           <a
-            href="tel:+61412954045"
-            className="p-3 rounded border border-[var(--border-default)] hover:border-[var(--accent-cyan)] flex items-center gap-2.5 transition-colors"
-          >
-            <IconPhone size={15} className="text-[var(--accent-cyan)]" />
-            <span>+61 412 954 045</span>
-          </a>
-
-          <a
             href="https://github.com/rahuldangeofficial"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded border border-[var(--border-default)] hover:border-[var(--accent-cyan)] flex items-center gap-2.5 transition-colors"
+            className="inline-flex items-center gap-2 py-2 text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] transition-colors"
           >
             <IconGithub size={15} className="text-[var(--accent-cyan)]" />
-            <span>github.com/rahuldangeofficial</span>
+            <span>GitHub</span>
           </a>
 
           <a
             href="https://www.linkedin.com/in/rahuldangeofficial/"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded border border-[var(--border-default)] hover:border-[var(--accent-cyan)] flex items-center gap-2.5 transition-colors"
+            className="inline-flex items-center gap-2 py-2 text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] transition-colors"
           >
             <IconLinkedin size={15} className="text-[var(--accent-cyan)]" />
-            <span>linkedin.com/in/rahuldangeofficial</span>
+            <span>LinkedIn</span>
           </a>
         </div>
 

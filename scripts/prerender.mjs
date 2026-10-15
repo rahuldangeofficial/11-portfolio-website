@@ -10,8 +10,8 @@ try {
   const markup = renderToString(createElement(App));
   if (!html.includes('<!--app-html-->')) throw new Error('Missing prerender insertion point');
   const base = 'https://rahuldange.com/';
-  const sections = ['about', 'projects', 'experience', 'skills', 'education', 'publications', 'contact'];
-  const labels = ['About', 'Projects', 'Experience', 'Technical Skills', 'Education', 'Publications', 'Contact'];
+  const sections = ['about', 'projects', 'experience', 'skills', 'education', 'publications', 'volunteering', 'contact'];
+  const labels = ['About', 'Projects', 'Experience', 'Technical Skills', 'Education', 'Publications', 'Volunteering', 'Contact'];
   for (const id of sections) {
     if (!markup.includes(`id="${id}"`)) throw new Error(`Missing crawlable section: ${id}`);
   }

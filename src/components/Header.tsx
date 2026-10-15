@@ -1,8 +1,30 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { IconMail, IconPhone, IconGithub, IconLinkedin, IconDownload, IconTerminal } from './Icons';
+import { IconMail, IconGithub, IconLinkedin, IconDownload, IconTerminal } from './Icons';
 
 const Header: React.FC = React.memo(() => {
   
+  const [themeMode, setThemeMode] = useState('system');
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('portfolio-theme-mode');
+      if (saved === 'light' || saved === 'dark') setThemeMode(saved);
+    } catch { /* Follow system preferences when storage is unavailable. */ }
+  }, []);
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const sync = () => {
+      document.documentElement.dataset.theme = themeMode === 'system'
+        ? (media.matches ? 'dark' : 'light') : themeMode;
+    };
+    sync();
+    media.addEventListener('change', sync);
+    return () => media.removeEventListener('change', sync);
+  }, [themeMode]);
+  const chooseTheme = (mode: string) => {
+    setThemeMode(mode);
+    try { localStorage.setItem('portfolio-theme-mode', mode); } catch { /* Selection still works. */ }
+  };
+
   const [activeSection, setActiveSection] = useState('about');
 
   const navigationItems = useMemo(() => [
@@ -12,6 +34,7 @@ const Header: React.FC = React.memo(() => {
     { id: 'skills', label: 'Skills' },
     { id: 'education', label: 'Education' },
     { id: 'publications', label: 'Publications' },
+    { id: 'volunteering', label: 'Volunteering' },
     { id: 'contact', label: 'Contact' }
   ], []);
 
@@ -83,12 +106,12 @@ const Header: React.FC = React.memo(() => {
           </div>
 
           {/* Bio */}
-          <div className="space-y-3 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)] max-w-3xl">
+          <div className="hero-copy space-y-3 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)] max-w-none">
             <p>
               I’m a computer engineer, a systems experimenter and an Academic Tutor at the University of Sydney.
             </p>
             <p>
-              Most of my time goes into building software, learning how it works and helping others understand it. My main interest is C/C++, memory management, concurrency, filesystems and language implementation. I like taking an idea, trying different designs and working through the details until I understand it.
+              I spend most of my time building software, learning how it works and helping others understand it. My focus is C/C++, memory management, concurrency, filesystems and language implementation. I explore ideas by building, testing and comparing different designs.
             </p>
             <p>
               I also build web applications with React, Node.js and databases. I’ve developed e-commerce software, built platforms for students and led an industry capstone from requirements to a working application.
@@ -100,7 +123,7 @@ const Header: React.FC = React.memo(() => {
               I hold a master’s in computer science from the University of Sydney. I’m looking for junior or graduate software engineering roles where I can contribute to systems, backend services or full-stack applications.
             </p>
             <p>
-              Sydney · Full Australian work rights
+              Sydney, Australia · Open to relocation · Full work rights (Australia)
             </p>
           </div>
 
@@ -109,10 +132,6 @@ const Header: React.FC = React.memo(() => {
             <a href="mailto:contact@rahuldange.com" className="flex items-center gap-1.5 hover:text-[var(--accent-cyan)] transition-colors">
               <IconMail size={14} />
               <span>contact@rahuldange.com</span>
-            </a>
-            <a href="tel:+61412954045" className="flex items-center gap-1.5 hover:text-[var(--accent-cyan)] transition-colors">
-              <IconPhone size={14} />
-              <span>+61 412 954 045</span>
             </a>
             <a href="https://github.com/rahuldangeofficial" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[var(--accent-cyan)] transition-colors">
               <IconGithub size={14} />
@@ -149,19 +168,16 @@ const Header: React.FC = React.memo(() => {
       </header>
 
       {/* ── STICKY NAVIGATION ── */}
-      <nav className="sticky top-0 z-50 bg-white border-b border-[var(--border-default)] py-2.5">
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 flex items-center gap-4">
-          <div className="flex items-center gap-2 text-sm font-semibold text-[var(--fg-primary)] shrink-0">
-            <span>Rahul Dange</span>
-          </div>
+      <nav className="sticky top-0 z-50 bg-[var(--bg-glass-nav)] border-b border-[var(--border-default)] py-2.5">
+        <div className="portfolio-nav max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 flex items-center gap-4">
 
-          <div className="flex items-center gap-1 text-[11px] sm:text-xs overflow-x-auto hide-scrollbar pb-1 sm:pb-0 w-full sm:w-auto">
+          <div className="flex items-center gap-1 text-xs overflow-x-auto hide-scrollbar pb-1 sm:pb-0 min-w-0 flex-1">
             {navigationItems.map((item) => (
               <a
                 href={`#${item.id}`}
                 aria-current={activeSection === item.id ? 'location' : undefined}
                 key={item.id}
-                className={`px-2.5 py-1 rounded-full whitespace-nowrap transition-colors ${
+                className={`px-2.5 py-1 rounded-md whitespace-nowrap transition-colors ${
                   activeSection === item.id
                     ? 'bg-[var(--fg-primary)] text-[var(--bg-primary)] font-bold'
                     : 'text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] hover:bg-[var(--bg-surface)]'
@@ -171,6 +187,14 @@ const Header: React.FC = React.memo(() => {
               </a>
             ))}
           </div>
+            <div className="theme-switch" role="group" aria-label="Colour theme">
+              {(['system', 'light', 'dark'] as const).map(option => (
+                <button key={option} type="button" aria-pressed={themeMode === option}
+                  onClick={() => chooseTheme(option)}>
+                  {option === 'system' ? 'System' : option === 'light' ? 'Light' : 'Dark'}
+                </button>
+              ))}
+            </div>
         </div>
       </nav>
     </>

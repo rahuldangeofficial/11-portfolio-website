@@ -30,7 +30,7 @@ const Publications: React.FC = React.memo(() => {
             Essay · <time dateTime="2026-08-26">26 August 2026</time> · 16 min read
           </p>
           <p className="text-sm sm:text-base text-[var(--fg-secondary)]">
-            An exploratory essay on how the way we represent a problem shapes what we can solve. Connects mathematics, AI, and human cognition; explores systems that discover new abstractions; and proposes a representation compiler to translate unfamiliar structures into human-understandable concepts, with a prototype outline for testing these ideas.
+            An essay about how the way we describe a problem affects the solutions we can find. It connects mathematics, AI and human cognition, and outlines a prototype for translating unfamiliar structures into concepts people can understand.
           </p>
         </div>
 

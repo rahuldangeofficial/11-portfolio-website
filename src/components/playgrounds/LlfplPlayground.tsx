@@ -4,8 +4,25 @@ import type { ExecutionLog, LlfplResult } from '../../lib/llfpl';
 import { IconPlay, IconRotateCcw, IconTerminal, IconCpu } from '../Icons';
 
 export const LlfplPlayground: React.FC = React.memo(() => {
-  const [selectedPreset, setSelectedPreset] = useState<string>('newton_sqrt');
-  const [sourceCode, setSourceCode] = useState<string>(PRESETS['newton_sqrt'].code);
+  const [files, setFiles] = useState<Record<string, string>>(() => Object.fromEntries(
+    Object.entries(PRESETS).map(([key, preset]) => [`${key}.LLFPL`, preset.code])
+  ));
+  const [activeFile, setActiveFile] = useState('newton_sqrt.LLFPL');
+  const [newFileName, setNewFileName] = useState('');
+  const [fileError, setFileError] = useState('');
+  const sourceCode = files[activeFile] ?? '';
+  const setSourceCode = (code: string) => setFiles(previous => ({ ...previous, [activeFile]: code }));
+  const createFile = (event: React.FormEvent) => {
+    event.preventDefault();
+    const raw = newFileName.trim();
+    const name = raw.endsWith('.LLFPL') ? raw : `${raw}.LLFPL`;
+    if (!raw || !/^[a-zA-Z0-9_-]+\.LLFPL$/.test(name)) { setFileError('Use letters, numbers, hyphens or underscores.'); return; }
+    if (Object.hasOwn(files, name)) { setFileError('That file already exists.'); return; }
+    if (Object.keys(files).length >= 20) { setFileError('This browser workspace supports up to 20 files.'); return; }
+    cancelExecution(); setIsRunning(false);
+    setFiles(previous => ({ ...previous, [name]: '-- New LLFPL program\nRequire(stdlib.LLFPL)\n\nCommit(plus(ONE, TWO))\n' }));
+    setActiveFile(name); setActiveTab('editor'); setNewFileName(''); setFileError('');
+  };
   const [logs, setLogs] = useState<ExecutionLog[]>([]);
   const [slabs, setSlabs] = useState<Record<string, Float64Array>>({});
   const [activeSlabTab, setActiveSlabTab] = useState<string>('');
@@ -17,18 +34,12 @@ export const LlfplPlayground: React.FC = React.memo(() => {
     timeNs: 0
   });
 
-  const handlePresetChange = (key: string) => {
-    cancelExecution();
-    setIsRunning(false);
-    setActiveSlabTab('');
-    setSelectedPreset(key);
-    if (PRESETS[key]) {
-      setSourceCode(PRESETS[key].code);
-      setActiveTab('editor');
-      setLogs([]);
-      setSlabs({});
-      setStats({ commits: 0, totalCost: 0, timeNs: 0 });
-    }
+  const resetFile = () => {
+    cancelExecution(); setIsRunning(false);
+    const preset = PRESETS[activeFile.replace(/\.LLFPL$/, '')];
+    setSourceCode(preset?.code ?? '-- New LLFPL program\nRequire(stdlib.LLFPL)\n\nCommit(plus(ONE, TWO))\n');
+    setActiveTab('editor'); setLogs([]); setSlabs({}); setActiveSlabTab('');
+    setStats({ commits: 0, totalCost: 0, timeNs: 0 });
   };
 
   const gutterRef = useRef<HTMLDivElement>(null);
@@ -96,12 +107,12 @@ export const LlfplPlayground: React.FC = React.memo(() => {
   const regex = /(--.*)|(\b\d+(?:\.\d+)?\b)|\b(Require|Slab|Identity|Map|Commit|Loop)\b|\b([A-Z][a-zA-Z0-9_]*)\b|\b([a-z_][a-z0-9_]*)\b|([(),])/g;
   
   return escaped.replace(regex, (match, comment, num, kw, varName, funcOrVar, sym) => {
-    if (comment) return `<span class="text-gray-500 italic">${comment}</span>`;
-    if (num) return `<span class="text-orange-300">${num}</span>`;
-    if (kw) return `<span class="text-pink-400 font-bold">${kw}</span>`;
-    if (varName) return `<span class="text-emerald-300">${varName}</span>`;
-    if (funcOrVar) return `<span class="text-cyan-200">${funcOrVar}</span>`;
-    if (sym) return `<span class="text-gray-400">${sym}</span>`;
+    if (comment) return `<span class="syntax-comment">${comment}</span>`;
+    if (num) return `<span class="syntax-number">${num}</span>`;
+    if (kw) return `<span class="syntax-keyword">${kw}</span>`;
+    if (varName) return `<span class="syntax-variable">${varName}</span>`;
+    if (funcOrVar) return `<span class="syntax-function">${funcOrVar}</span>`;
+    if (sym) return `<span class="syntax-punctuation">${sym}</span>`;
     return match;
   });
 };
@@ -122,7 +133,7 @@ export const LlfplPlayground: React.FC = React.memo(() => {
   const highlightedCode = useMemo(() => highlightCode(sourceCode), [sourceCode]);
 
   return (
-    <div className="border border-[var(--border-default)] rounded-lg overflow-hidden bg-[#0d1117] text-[#e6edf3] font-mono text-xs sm:text-[13px] shadow-lg">
+    <div className="interactive-demo border border-[#30363d] rounded-lg overflow-hidden bg-[#0d1117] text-[#e6edf3] font-mono text-xs sm:text-[13px] shadow-lg">
       
       {/* ── Studio Titlebar ── */}
       <div className="bg-[#161b22] px-4 py-2.5 border-b border-[#30363d] flex flex-wrap items-center justify-between gap-3">
@@ -138,19 +149,21 @@ export const LlfplPlayground: React.FC = React.memo(() => {
         <div className="flex bg-[#21262d] p-0.5 rounded border border-[#30363d]">
           <button
             onClick={() => setActiveTab('editor')}
+            aria-pressed={activeTab === 'editor'}
             className={`px-2.5 py-1 text-xs rounded transition-colors ${
-              activeTab === 'editor' ? 'bg-emerald-700 text-white font-bold' : 'text-gray-400 hover:text-white'
+              activeTab === 'editor' ? 'bg-[#30363d] text-white font-semibold' : 'text-gray-400 hover:text-white'
             }`}
           >
             Code Editor
           </button>
           <button
             onClick={() => setActiveTab('output')}
+            aria-pressed={activeTab === 'output'}
             className={`px-2.5 py-1 text-xs rounded transition-colors ${
-              activeTab === 'output' ? 'bg-emerald-700 text-white font-bold' : 'text-gray-400 hover:text-white'
+              activeTab === 'output' ? 'bg-[#30363d] text-white font-semibold' : 'text-gray-400 hover:text-white'
             }`}
           >
-            Terminal & Memory
+            Output & Memory
           </button>
         </div>
 
@@ -159,19 +172,7 @@ export const LlfplPlayground: React.FC = React.memo(() => {
 
       {/* Preset Subtitle & Controls */}
       <div className="px-4 py-1.5 bg-[#161b22]/70 border-b border-[#30363d] flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2 flex-wrap">
-          <select
-            aria-label="LLFPL example program"
-            value={selectedPreset}
-            onChange={(e) => handlePresetChange(e.target.value)}
-            className="bg-[#21262d] text-white text-xs border border-[#30363d] rounded px-2.5 py-1 focus:outline-none focus:border-emerald-500 cursor-pointer"
-          >
-            {Object.entries(PRESETS).map(([key, item]) => (
-              <option key={key} value={key}>
-                {item.name}
-              </option>
-            ))}
-          </select>
+        <div className="demo-program-controls flex items-center gap-3 flex-wrap">
 
           <button
             onClick={() => {
@@ -179,33 +180,50 @@ export const LlfplPlayground: React.FC = React.memo(() => {
               executeCode();
             }}
             disabled={isRunning}
-            className="bg-emerald-950/80 hover:bg-emerald-900 text-emerald-400 border border-emerald-800/80 shadow-sm font-bold px-2.5 py-1 text-xs rounded flex items-center gap-1 transition-colors"
+            className="demo-run bg-[#21262d] hover:bg-[#30363d] text-gray-200 border border-[#484f58] font-bold px-2.5 py-1 text-xs rounded flex items-center gap-1 transition-colors"
           >
             <IconPlay size={12} />
             <span>Run</span>
           </button>
 
           <button
-            onClick={() => handlePresetChange(selectedPreset)}
+            onClick={() => resetFile()}
             className="p-1.5 rounded bg-[#21262d] text-gray-300 hover:text-white border border-[#30363d] transition-colors"
             title="Reset code"
+            aria-label="Reset code"
           >
             <IconRotateCcw size={12} />
           </button>
         </div>
-        <div className="flex items-center gap-2 text-[11px] text-gray-400 hidden lg:flex">
-          <span>{PRESETS[selectedPreset]?.description}</span>
-          <span className="text-emerald-400 font-bold">[{PRESETS[selectedPreset]?.tag}]</span>
-        </div>
+        <span className="text-[11px] text-gray-400">Run active file · temporary browser workspace</span>
       </div>
 
+      <div className="llfpl-ide-layout">
+        <aside className="llfpl-explorer" aria-label="LLFPL workspace files">
+          <div className="llfpl-explorer-heading">EXPLORER <span>{Object.keys(files).length} files</span></div>
+          <div className="llfpl-file-list">
+            {Object.keys(files).map(name => (
+              <button type="button" key={name} title={name} aria-current={activeFile === name ? 'true' : undefined}
+                onClick={() => { cancelExecution(); setIsRunning(false); setActiveFile(name); setActiveTab('editor'); setLogs([]); setSlabs({}); setActiveSlabTab(''); setStats({ commits: 0, totalCost: 0, timeNs: 0 }); }}>
+                <span aria-hidden="true">≡</span><span className="llfpl-filename">{name}</span>
+              </button>
+            ))}
+          </div>
+          <form onSubmit={createFile} className="llfpl-new-file">
+            <label htmlFor="llfpl-new-file">New file</label>
+            <input id="llfpl-new-file" value={newFileName} onChange={event => setNewFileName(event.target.value)} placeholder="example.LLFPL" maxLength={64} />
+            <button type="submit">+ Create file</button>
+            {fileError && <p role="alert">{fileError}</p>}
+          </form>
+        </aside>
+        <div className="min-w-0">
       {/* ── Main Split View ── */}
-      <div className="flex flex-col h-[320px] sm:h-[350px] lg:h-[400px] border-t border-[#30363d] overflow-hidden">
+      <div className="flex flex-col h-[380px] sm:h-[440px] lg:h-[480px] border-t border-[#30363d] overflow-hidden">
         
         {/* Left/Tab 1: Source Editor */}
         <div className={`flex-1 bg-[#0d1117] flex-col min-h-0 h-full ${activeTab === 'editor' ? 'flex' : 'hidden'}`}>
           <div className="flex items-center justify-between p-3 border-b border-[#21262d] text-gray-400 text-[11px] bg-[#161b22]/40 shrink-0">
-            <span>program.LLFPL</span>
+            <span>{activeFile}</span>
             <span className="text-gray-500">C / WebAssembly</span>
           </div>
 
@@ -250,7 +268,7 @@ export const LlfplPlayground: React.FC = React.memo(() => {
             <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-[#21262d] shrink-0">
               <span className="text-xs font-bold text-gray-300 flex items-center gap-1.5">
                 <IconTerminal size={13} className="text-emerald-400" />
-                Execution Trace &amp; Output
+                Output
               </span>
               <span className="text-[10px] text-emerald-400 font-bold">
                 {stats.commits} Commits ({stats.timeNs} ns)
@@ -292,7 +310,7 @@ export const LlfplPlayground: React.FC = React.memo(() => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[11px] font-bold text-gray-300 flex items-center gap-1">
                   <IconCpu size={12} className="text-emerald-400" />
-                  Memory Slab Inspector
+                  Memory
                 </span>
               </div>
 
@@ -327,6 +345,8 @@ export const LlfplPlayground: React.FC = React.memo(() => {
               )}
             </div>
           )}
+        </div>
+      </div>
         </div>
       </div>
     </div>

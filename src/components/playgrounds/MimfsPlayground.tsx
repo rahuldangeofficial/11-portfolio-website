@@ -7,6 +7,7 @@ export const MimfsPlayground: React.FC = React.memo(() => {
   const [volume, setVolume] = useState(emptyView);
   const [history, setHistory] = useState<Line[]>([{type:'output',text:"Loading the real MIMFS WebAssembly runtime…"}]);
   const [inputVal, setInputVal] = useState('');
+  const [selectedBlock, setSelectedBlock] = useState<number | null>(null);
   const [activeView, setActiveView] = useState<'terminal' | 'block_map'>('terminal');
   const terminalEndRef = useRef<HTMLDivElement | null>(null);
   const { inodes, blocks: blockAllocation } = volume;
@@ -101,7 +102,7 @@ export const MimfsPlayground: React.FC = React.memo(() => {
   };
 
   return (
-    <div className="border border-[var(--border-default)] rounded-lg overflow-hidden bg-[#0d1117] text-[#e6edf3] font-mono text-xs sm:text-[13px] shadow-lg">
+    <div className="interactive-demo border border-[#30363d] rounded-lg overflow-hidden bg-[#0d1117] text-[#e6edf3] font-mono text-xs sm:text-[13px] shadow-lg">
       
       {/* ── Titlebar ── */}
       <div className="bg-[#161b22] px-4 py-2.5 border-b border-[#30363d] flex flex-wrap items-center justify-between gap-3">
@@ -112,8 +113,8 @@ export const MimfsPlayground: React.FC = React.memo(() => {
             <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
           </div>
           <span className="font-bold text-white tracking-wide">MIMFS Shell</span>
-          <span className="px-2 py-0.5 rounded text-[10px] bg-[#21262d] text-emerald-400 border border-[#30363d] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="px-2 py-0.5 rounded text-[10px] bg-[#21262d] text-gray-300 border border-[#30363d] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
             C / WEBASSEMBLY
           </span>
         </div>
@@ -122,9 +123,10 @@ export const MimfsPlayground: React.FC = React.memo(() => {
         <div className="flex bg-[#21262d] p-0.5 rounded border border-[#30363d]">
           <button
             onClick={() => setActiveView('terminal')}
+            aria-pressed={activeView === 'terminal'}
             className={`px-2.5 py-1 text-xs rounded transition-colors ${
               activeView === 'terminal'
-                ? 'bg-emerald-700 text-white font-bold'
+                ? 'bg-[#30363d] text-white font-semibold'
                 : 'text-gray-400 hover:text-white'
             }`}
           >
@@ -132,9 +134,10 @@ export const MimfsPlayground: React.FC = React.memo(() => {
           </button>
           <button
             onClick={() => setActiveView('block_map')}
+            aria-pressed={activeView === 'block_map'}
             className={`px-2.5 py-1 text-xs rounded transition-colors ${
               activeView === 'block_map'
-                ? 'bg-emerald-700 text-white font-bold'
+                ? 'bg-[#30363d] text-white font-semibold'
                 : 'text-gray-400 hover:text-white'
             }`}
           >
@@ -229,7 +232,7 @@ export const MimfsPlayground: React.FC = React.memo(() => {
       {/* ── Storage Block Map View ── */}
       {activeView === 'block_map' && (
         <div className="p-4 bg-[#090d13] h-[320px] sm:h-[350px] lg:h-[400px] overflow-y-auto dark-scrollbar space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <IconLayers size={15} className="text-emerald-400" />
               <span className="text-xs font-bold text-gray-200">
@@ -241,53 +244,46 @@ export const MimfsPlayground: React.FC = React.memo(() => {
             </span>
           </div>
 
-          {/* Block Matrix Grid */}
-          <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-1.5 p-3 rounded bg-[#161b22] border border-[#30363d]">
-            {blockAllocation.map((block) => {
-              let bg = 'bg-[#21262d] text-gray-500 border border-[#30363d]';
-              let label = `Block #${block.id}`;
-
-              if (block.type === 'allocated') {
-                bg = 'bg-purple-900/80 text-purple-200 border border-purple-600 font-bold';
-                label = 'ALLOCATED (reserved or indirect)';              } else if (block.type === 'data_dir') {
-                bg = 'bg-emerald-900/80 text-emerald-200 border border-emerald-500 font-bold';
-                label = `DIR_INODE_${block.ownerInode ?? '0'}`;
-              } else if (block.type === 'data_file') {
-                bg = 'bg-cyan-900/80 text-cyan-200 border border-cyan-500 font-bold';
-                label = `FILE_INODE_${block.ownerInode ?? '0'}`;
-              }
-
-              return (
-                <div
-                  key={block.id}
-                  className={`h-9 rounded flex flex-col items-center justify-center p-1 text-[9px] font-mono transition-transform hover:scale-105 cursor-pointer select-none ${bg}`}
-                  title={`${label} (Block ID: ${block.id})`}
-                >
-                  <span>#{block.id}</span>
-                  <span className="text-[7px] truncate max-w-full opacity-90">{block.type.toUpperCase()}</span>
-                </div>
-              );
-            })}
+          <div className="block-legend" aria-label="Block types">
+            <span><i className="block-dot free" />Free</span>
+            <span><i className="block-dot data_dir" />Directory</span>
+            <span><i className="block-dot data_file" />File</span>
+            <span><i className="block-dot allocated" />Reserved / indirect</span>
+          </div>
+          <div className="block-grid" aria-label="First 48 data blocks">
+            {blockAllocation.map(block => (
+              <button type="button" key={block.id}
+                className={`block-cell ${block.type}`}
+                aria-pressed={selectedBlock === block.id}
+                aria-label={`Block ${block.id}, ${block.type}${block.ownerInode != null ? `, inode ${block.ownerInode}` : ''}`}
+                onClick={() => setSelectedBlock(block.id)}>
+                <span>{block.id}</span>
+              </button>
+            ))}
+          </div>
+          <div className="block-detail" aria-live="polite">
+            {selectedBlock === null ? 'Select a block to inspect its allocation.' : (() => {
+              const block = blockAllocation.find(item => item.id === selectedBlock);
+              return block ? `Block ${block.id} · ${block.type === 'data_dir' ? 'Directory data' : block.type === 'data_file' ? 'File data' : block.type === 'allocated' ? 'Reserved / indirect' : 'Free'}${block.ownerInode != null ? ` · Inode ${block.ownerInode}` : ''} · 4096 bytes` : 'Block unavailable';
+            })()}
           </div>
 
           {/* Inode Table Info */}
           <div className="space-y-2 pt-2 border-t border-[#21262d]">
             <h4 className="text-xs font-bold text-gray-300">Inode Table (first 128 live inodes)</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-[11px]">
-              {Object.values(inodes).map(node => (
-                <div key={node.id} className="p-2 rounded bg-[#161b22] border border-[#30363d]">
-                  <div className="flex items-center justify-between font-bold text-emerald-400">
-                    <span>Inode #{node.id}</span>
-                    <span className="uppercase text-[9px] px-1 rounded bg-[#21262d] text-gray-300">
-                      {node.type}
-                    </span>
-                  </div>
-                  <div className="text-[10px] text-gray-400 mt-1 space-y-0.5">
-                    <div>Size: {node.size} bytes | Links: {node.linkCount}</div>
-                    <div>Blocks: [{node.directBlocks.join(', ') || 'none / inline'}]</div>
-                  </div>
-                </div>
-              ))}
+            <div className="inode-table-wrap">
+              <table className="inode-table">
+                <thead><tr><th scope="col">Inode</th><th scope="col">Type</th><th scope="col">Size (bytes)</th><th scope="col">Links</th><th scope="col">Data blocks</th></tr></thead>
+                <tbody>
+                  {Object.values(inodes).map(node => (
+                    <tr key={node.id}>
+                      <th scope="row">#{node.id}</th><td>{node.type}</td><td>{node.size}</td><td>{node.linkCount}</td>
+                      <td>{node.directBlocks.join(', ') || 'none / inline'}</td>
+                    </tr>
+                  ))}
+                  {Object.keys(inodes).length === 0 && <tr><td colSpan={5}>No live inodes. Run a demo or create a file to populate this table.</td></tr>}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

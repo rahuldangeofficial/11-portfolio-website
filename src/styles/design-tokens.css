@@ -139,3 +139,70 @@
   --nav-height: 56px;
   --section-padding: clamp(3rem, 2rem + 4vw, 6rem);
 }
+
+/* Light palette aligned with the dark theme's surface hierarchy. */
+:root {
+  --bg-root: #ffffff;
+  --bg-primary: #f6f8fa;
+  --bg-secondary: #eaeef2;
+  --bg-tertiary: #d8dee4;
+  --bg-surface: #f6f8fa;
+  --bg-surface-hover: #eaeef2;
+  --bg-elevated: #ffffff;
+  --bg-glass: #ffffff;
+  --bg-glass-nav: #ffffff;
+  --fg-primary: #1f2328;
+  --fg-secondary: #454c54;
+  --fg-muted: #59636e;
+  --fg-faint: #818b98;
+  --fg-inverse: #ffffff;
+  --accent-cyan: #0969da;
+  --accent-cyan-bright: #0550ae;
+  --accent-blue: #0969da;
+  --accent-blue-bright: #0550ae;
+  --accent-purple: #0969da;
+  --accent-green: #59636e;
+  --accent-green-bright: #1f2328;
+  --accent-cyan-glow: rgba(9,105,218,.05);
+  --accent-blue-glow: rgba(9,105,218,.05);
+  --accent-purple-glow: rgba(9,105,218,.05);
+  --accent-green-glow: rgba(89,99,110,.04);
+  --border-subtle: #d1d9e080;
+  --border-default: #d1d9e0;
+  --border-hover: #9198a1;
+  --border-active: #0969da;
+}
+
+/* GitHub Primer Dark semantic palette. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-root: #0d1117;
+  --bg-primary: #151b23;
+  --bg-secondary: #212830;
+  --bg-tertiary: #2a313c;
+  --bg-surface: #151b23;
+  --bg-surface-hover: #212830;
+  --bg-elevated: #151b23;
+  --bg-glass: #0d1117;
+  --bg-glass-nav: #0d1117;
+  --fg-primary: #f0f6fc;
+  --fg-secondary: #c9d1d9;
+  --fg-muted: #9198a1;
+  --fg-faint: #656c76;
+  --fg-inverse: #0d1117;
+  --accent-cyan: #4493f8;
+  --accent-cyan-bright: #79b8ff;
+  --accent-blue: #4493f8;
+  --accent-blue-bright: #79b8ff;
+  --accent-purple: #4493f8;
+  --accent-green: #9198a1;
+  --accent-green-bright: #c9d1d9;
+  --accent-cyan-glow: rgba(68,147,248,.08);
+  --accent-blue-glow: rgba(68,147,248,.08);
+  --accent-green-glow: rgba(145,152,161,.06);
+  --accent-purple-glow: rgba(68,147,248,.08);
+  --border-subtle: #3d444db3;
+  --border-default: #3d444d;
+  --border-hover: #656c76;
+  --border-active: #4493f8;
+}
