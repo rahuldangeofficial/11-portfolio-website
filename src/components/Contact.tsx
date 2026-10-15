@@ -11,7 +11,7 @@ const Contact: React.FC = React.memo(() => {
       </div>
 
       <div className="space-y-4">
-        <div className="flex flex-wrap items-center gap-x-7 gap-y-3 text-sm sm:text-base pt-2">
+        <div className="contact-links flex flex-wrap items-center gap-x-7 gap-y-3 text-sm sm:text-base pt-2">
           <a
             href="mailto:contact@rahuldange.com"
             className="inline-flex items-center gap-2 py-2 text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] transition-colors"
@@ -54,7 +54,7 @@ const Contact: React.FC = React.memo(() => {
       </div>
 
       {/* Minimal Footer */}
-      <footer className="pt-12 pb-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs  text-[var(--fg-muted)]">
+      <footer className="pt-12 pb-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs  text-[var(--fg-muted)]">
         <div>© {new Date().getFullYear()} Rahul Dange</div>
         <div>rahuldange.com</div>
       </footer>

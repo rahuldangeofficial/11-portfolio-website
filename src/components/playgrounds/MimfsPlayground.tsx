@@ -147,7 +147,7 @@ export const MimfsPlayground: React.FC = React.memo(() => {
       </div>
 
       {/* Quick Demo Action Buttons */}
-      <div className="px-4 py-1.5 bg-[#161b22]/70 border-b border-[#30363d] flex items-center gap-2 flex-wrap text-[11px]">
+      <div className="mimfs-presets px-4 py-1.5 bg-[#161b22]/70 border-b border-[#30363d] flex items-center gap-2 flex-wrap text-[11px]">
         <span className="text-gray-400">Demos:</span>
         <button
           disabled={busy}

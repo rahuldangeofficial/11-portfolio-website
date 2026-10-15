@@ -3,6 +3,7 @@ import { IconMail, IconGithub, IconLinkedin, IconDownload, IconTerminal } from '
 
 const Header: React.FC = React.memo(() => {
   
+  const [isDark, setIsDark] = useState(false);
   const [themeMode, setThemeMode] = useState('system');
   useEffect(() => {
     try {
@@ -13,12 +14,14 @@ const Header: React.FC = React.memo(() => {
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const sync = () => {
-      document.documentElement.dataset.theme = themeMode === 'system'
-        ? (media.matches ? 'dark' : 'light') : themeMode;
+      const resolved = themeMode === 'system' ? (media.matches ? 'dark' : 'light') : themeMode;
+      document.documentElement.dataset.theme = resolved;
+      setIsDark(resolved === 'dark');
     };
-    sync();
+    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 80;
+    const timer = window.setTimeout(sync, delay);
     media.addEventListener('change', sync);
-    return () => media.removeEventListener('change', sync);
+    return () => { window.clearTimeout(timer); media.removeEventListener('change', sync); };
   }, [themeMode]);
   const chooseTheme = (mode: string) => {
     setThemeMode(mode);
@@ -92,16 +95,31 @@ const Header: React.FC = React.memo(() => {
   return (
     <>
       {/* ── HERO BANNER ── */}
-      <header className="pt-12 sm:pt-16 pb-8 border-b border-[var(--border-default)]">
+      <header className="relative pt-12 sm:pt-16 pb-8 border-b border-[var(--border-default)]">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 space-y-6">
           
           {/* Identity & Headline */}
           <div className="space-y-2">
+            <div className="hero-title-row">
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--fg-primary)]">
               Rahul Dange
             </h1>
+        <div className="hero-theme-position">
+          <button type="button" className="appearance-toggle" role="switch"
+            aria-label="Dark theme" title="Switch light or dark appearance" aria-checked={isDark}
+            onClick={() => chooseTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark')}>
+            <span className="appearance-selection" aria-hidden="true" />
+            <span className="appearance-option">Light</span>
+            <span className="appearance-option">Dark</span>
+          </button>
+        </div>
+            </div>
             <p className="text-base sm:text-lg font-medium text-[var(--fg-secondary)]">
-              Computer Engineer | Systems Programming · Algorithms · Software Architecture
+              <span className="hero-disciplines">
+                <span className="discipline-row"><span>Computer Engineer</span><span aria-hidden="true">|</span><span>Systems Programming</span></span>
+                <span aria-hidden="true" className="discipline-row-separator">·</span>
+                <span className="discipline-row"><span>Algorithms</span><span aria-hidden="true">·</span><span>Software Architecture</span></span>
+              </span>
             </p>
           </div>
 
@@ -171,7 +189,7 @@ const Header: React.FC = React.memo(() => {
       <nav className="sticky top-0 z-50 bg-[var(--bg-glass-nav)] border-b border-[var(--border-default)] py-2.5">
         <div className="portfolio-nav max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 flex items-center gap-4">
 
-          <div className="flex items-center gap-1 text-xs overflow-x-auto hide-scrollbar pb-1 sm:pb-0 min-w-0 flex-1">
+          <div className="nav-section-links flex items-center gap-1 text-xs min-w-0 flex-1">
             {navigationItems.map((item) => (
               <a
                 href={`#${item.id}`}
@@ -187,14 +205,7 @@ const Header: React.FC = React.memo(() => {
               </a>
             ))}
           </div>
-            <div className="theme-switch" role="group" aria-label="Colour theme">
-              {(['system', 'light', 'dark'] as const).map(option => (
-                <button key={option} type="button" aria-pressed={themeMode === option}
-                  onClick={() => chooseTheme(option)}>
-                  {option === 'system' ? 'System' : option === 'light' ? 'Light' : 'Dark'}
-                </button>
-              ))}
-            </div>
+
         </div>
       </nav>
     </>
