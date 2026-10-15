@@ -40,7 +40,7 @@ const Experience: React.FC = React.memo(() => {
         <div className="space-y-1.5">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
             <h3 className="text-base sm:text-lg font-bold text-[var(--fg-primary)]">
-              Academic Tutor: Systems Programming (COMP2017)
+              Academic Tutor
             </h3>
             <span className="text-xs  text-[var(--fg-muted)]">
               Jan 2026 - Present
