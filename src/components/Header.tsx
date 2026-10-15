@@ -123,13 +123,13 @@ const Header: React.FC = React.memo(() => {
           {/* Bio */}
           <div className="hero-copy space-y-3 text-sm sm:text-base leading-relaxed text-[var(--fg-secondary)] max-w-none">
             <p>
-              I’m a computer engineer, a systems experimenter and an Academic Tutor at the University of Sydney.
+              I’m a computer engineer, a systems experimenter and an Academic Tutor at the <span className="whitespace-nowrap">University of Sydney.</span>
             </p>
             <p>
               I spend most of my time building software, learning how it works and helping others understand it. My focus <span className="whitespace-nowrap">is C/C++</span>, memory management, concurrency, filesystems and language implementation. I explore ideas by building, testing and comparing different designs.
             </p>
             <p>
-              I also build web applications with React, Node.js and databases. I’ve developed <span className="whitespace-nowrap">e-commerce</span> software, built platforms for students and led an industry capstone from requirements to a working application.
+              I also build web applications with React, Node.js and databases. I’ve developed <span className="whitespace-nowrap">e-commerce</span> software, built platforms for students and led an industry capstone from requirements to a <span className="whitespace-nowrap">working application.</span>
             </p>
             <p>
               Building and taking initiative have gone together throughout my studies. I started a student resource-sharing app and a cybersecurity club, coordinated a college hackathon, and led several project teams. Today, I also teach C and systems programming.
