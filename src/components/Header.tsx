@@ -72,16 +72,6 @@ const Header: React.FC = React.memo(() => {
       <header className="pt-12 sm:pt-16 pb-8 border-b border-[var(--border-default)]">
         <div className="max-w-4xl mx-auto px-5 sm:px-8 lg:px-8 space-y-6">
           
-          {/* Top Status */}
-          <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--fg-muted)]">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Sydney, Australia</span>
-            <span>·</span>
-            <span>Full Work Rights (Subclass 485)</span>
-            <span>·</span>
-            <span className="text-[var(--accent-cyan)] font-medium">Open to junior / graduate roles</span>
-          </div>
-
           {/* Identity & Headline */}
           <div className="space-y-2">
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--fg-primary)]">
