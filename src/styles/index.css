@@ -1241,3 +1241,26 @@ header .hero-copy > p {
  word-spacing:normal; letter-spacing:normal;
  hyphens:none; -webkit-hyphens:none; word-break:normal;
 }
+
+/* Progressive text layout: pretty paragraphs, balanced headings. */
+header .hero-copy > p,
+header .hero-copy > p:first-child,
+header .hero-copy > p:not(:last-child) {
+ text-align:left; text-align-last:auto;
+ text-wrap:wrap; word-spacing:normal; letter-spacing:normal;
+ hyphens:none; -webkit-hyphens:none;
+}
+@supports (text-wrap: pretty) {
+ header .hero-copy > p,
+ header .hero-copy > p:first-child,
+ header .hero-copy > p:not(:last-child),
+ main p:not(.interactive-demo p),
+ #experience p, #volunteering p {
+  text-wrap:pretty;
+ }
+}
+@supports (text-wrap: balance) {
+ header h1, main h2, main h3, main h4 { text-wrap:balance; }
+}
+/* Runtime output and source code must retain literal formatting. */
+.interactive-demo p,.interactive-demo h4 { text-wrap:wrap; }
