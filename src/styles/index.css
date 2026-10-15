@@ -1264,3 +1264,7 @@ header .hero-copy > p:not(:last-child) {
 }
 /* Runtime output and source code must retain literal formatting. */
 .interactive-demo p,.interactive-demo h4 { text-wrap:wrap; }
+
+/* A small trailing inset gives the introduction room to wrap. */
+header .hero-copy { padding-right:16px; }
+@media(max-width:639px) { header .hero-copy { padding-right:8px; } }
