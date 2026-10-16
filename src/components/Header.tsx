@@ -163,7 +163,7 @@ const Header: React.FC = React.memo(() => {
             <a
               id="btn-download-resume"
               href="/resume.pdf"
-              download="resume.pdf"
+              download="Rahul Dange Resume.pdf"
               className="btn btn-primary btn-sm flex items-center gap-2 text-xs"
             >
               <IconDownload size={14} />
