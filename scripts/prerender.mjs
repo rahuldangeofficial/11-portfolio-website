@@ -16,7 +16,7 @@ try {
     if (!markup.includes(`id="${id}"`)) throw new Error(`Missing crawlable section: ${id}`);
   }
   if ((markup.match(/<h1\b/g) || []).length !== 1) throw new Error('Expected one primary heading');
-  if (!markup.includes('href="/resume.v4.pdf"')) throw new Error('Missing crawlable current resume link');
+  if (!markup.includes('href="/resume.pdf"')) throw new Error('Missing crawlable current resume link');
   const schemaMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   if (!schemaMatch) throw new Error('Missing profile structured data');
   const profile = JSON.parse(schemaMatch[1]);
@@ -59,7 +59,7 @@ try {
       },
       {
         '@type': 'DigitalDocument', '@id': `${base}#resume`, name: 'Rahul Dange Resume',
-        url: `${base}resume.v4.pdf`, encodingFormat: 'application/pdf', author: {'@id': person['@id']}
+        url: `${base}resume.pdf`, encodingFormat: 'application/pdf', author: {'@id': person['@id']}
       }
     ]
   };
