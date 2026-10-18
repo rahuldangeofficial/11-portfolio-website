@@ -4,21 +4,23 @@ import { IconMail, IconGithub, IconLinkedin, IconDownload, IconTerminal } from '
 const Header: React.FC = React.memo(() => {
   
   const [isDark, setIsDark] = useState(false);
-  const [themeMode, setThemeMode] = useState('light');
-  useEffect(() => {
+  const [themeMode, setThemeMode] = useState(() => {
     try {
       const saved = localStorage.getItem('portfolio-theme-mode');
-      if (saved === 'light' || saved === 'dark') setThemeMode(saved);
-    } catch { /* Light is the default when storage is unavailable. */ }
-  }, []);
+      if (saved === 'light' || saved === 'dark') return saved;
+    } catch { /* Follow the system when storage is unavailable. */ }
+    return 'system';
+  });
   useEffect(() => {
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
     const sync = () => {
-      document.documentElement.dataset.theme = themeMode;
-      setIsDark(themeMode === 'dark');
+      const dark = themeMode === 'dark' || (themeMode === 'system' && systemTheme.matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      setIsDark(dark);
     };
-    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 80;
-    const timer = window.setTimeout(sync, delay);
-    return () => window.clearTimeout(timer);
+    sync();
+    systemTheme.addEventListener('change', sync);
+    return () => systemTheme.removeEventListener('change', sync);
   }, [themeMode]);
   const chooseTheme = (mode: string) => {
     setThemeMode(mode);
