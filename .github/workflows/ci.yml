@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Lint, test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - name: Install Yarn 1 (the lockfile format)
+        run: npm install -g yarn@1.22.22
+      - name: Install dependencies exactly as locked
+        run: yarn install --frozen-lockfile --non-interactive
+      - name: Lint
+        run: yarn lint
+      - name: Tests against the WebAssembly builds
+        run: yarn test
+      - name: Production build and prerender
+        run: yarn build

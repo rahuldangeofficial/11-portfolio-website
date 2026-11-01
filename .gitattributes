@@ -1,0 +1,3 @@
+# Vendored upstream C (MIMFS, LLFPL) and generated WebAssembly glue: excluded from GitHub's language bar
+native/** linguist-vendored
+public/wasm/** linguist-generated
